@@ -3,14 +3,14 @@ import 'package:agromate/screens/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:agromate/configs/custom_colors.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class AgriOfficerHomeScreen extends StatefulWidget {
+  const AgriOfficerHomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<AgriOfficerHomeScreen> createState() => _AgriOfficerHomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _AgriOfficerHomeScreenState extends State<AgriOfficerHomeScreen> {
   @override
   Widget build(BuildContext context) {
     // int userLevel =
