@@ -51,23 +51,22 @@ class _resellerLoginScreenState extends State<resellerLoginScreen> {
     } else {
       setState(() {
         showDialog(
-      context: context,
-      builder: (context) => AlertBoxWidget(
-        title: 'Forgot Password?',
-        content: Text.rich(
-          TextSpan(
-            text: responseData['message'],
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  height: 1.5,
-                ),
-            
+          context: context,
+          builder: (context) => AlertBoxWidget(
+            title: 'Forgot Password?',
+            content: Text.rich(
+              TextSpan(
+                text: responseData['message'],
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      height: 1.5,
+                    ),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            buttonTitle: 'Okay',
+            onPressed: () => Navigator.pop(context),
           ),
-          textAlign: TextAlign.center,
-        ),
-        buttonTitle: 'Okay',
-        onPressed: () => Navigator.pop(context),
-      ),
-    );
+        );
       });
     }
   }
@@ -107,13 +106,13 @@ class _resellerLoginScreenState extends State<resellerLoginScreen> {
         title: 'Don\'t have an account?',
         content: Text.rich(
           TextSpan(
-            text: 'Contact IT Department\n',
+            text: 'Contact admin\n',
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   height: 1.5,
                 ),
             children: [
               TextSpan(
-                text: 'Tel: 0112223344',
+                text: 'Tel: 0756770843',
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       height: 1.5,
                     ),
@@ -265,12 +264,13 @@ class _resellerLoginScreenState extends State<resellerLoginScreen> {
                     ),
                     TextButton(
                       onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const OfficerRegistration()),
-                    );
-                  },
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const OfficerRegistration()),
+                        );
+                      },
                       child: const Text(
                         'Sign Up',
                         style: TextStyle(fontWeight: FontWeight.bold),

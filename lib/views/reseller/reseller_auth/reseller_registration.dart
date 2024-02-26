@@ -33,8 +33,7 @@ class _ResellerRegistrationState extends State<ResellerRegistration> {
   }
 
   Future<void> postOfficerData(Officer userData) async {
-    final url = Uri.parse(
-        '${UrlLocation.Url}/register_Officer'); // Replace with your API endpoint URL
+    final url = Uri.parse('${UrlLocation.Url}/register_Officer'); // Replace with your API endpoint URL
     final headers = <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     };
@@ -152,20 +151,6 @@ class _ResellerRegistrationState extends State<ResellerRegistration> {
                       ),
                     ),
                   ),
-                  // Container(height: 16.0),
-                  // TextField(
-                  //   controller: _areaController,
-                  //   decoration: const InputDecoration(
-                  //     labelText: 'Field Area Size',
-                  //     border: OutlineInputBorder(),
-                  //     focusedBorder: OutlineInputBorder(
-                  //       borderSide: BorderSide(color: Colors.black),
-                  //     ),
-                  //     labelStyle: TextStyle(
-                  //       color: Colors.black,
-                  //     ),
-                  //   ),
-                  // ),
                   Container(height: 16.0),
                   TextField(
                     controller: _phnumberController,
@@ -197,14 +182,12 @@ class _ResellerRegistrationState extends State<ResellerRegistration> {
                         String username = _usernameController.text;
                         String password = _usernameController.text;
                         String ph_number = _usernameController.text;
-
                         final userData = Officer(
                           name: username,
                           password: password,
                           phNumber: ph_number,
                         );
                         postOfficerData(userData);
-
                         Navigator.push(
                           context,
                           MaterialPageRoute(
