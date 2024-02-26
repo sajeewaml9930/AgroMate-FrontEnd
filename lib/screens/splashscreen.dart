@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _navigateToHomeScreen() async {
-    await Future.delayed(const Duration(seconds: 1)).then(
+    await Future.delayed(const Duration(seconds: 2)).then(
       (value) => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             const Text(
               'Welcome to AgroMate',
-              style: TextStyle(fontSize: 40.0),
+              style: TextStyle(fontSize: 30.0),
             ),
             const SizedBox(height: 20),
             Image.asset(

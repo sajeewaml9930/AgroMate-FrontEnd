@@ -1,4 +1,5 @@
 import 'package:agromate/screens/auth/agriofficer/agriofficeloging.dart';
+import 'package:agromate/screens/auth/farmer/farmerlogin.dart';
 import 'package:agromate/screens/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:agromate/configs/custom_colors.dart';
@@ -68,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const AgriOfficeLoging(),
+                      builder: (context) => const FarmerLoging(),
                     ),
                   );
                 },
@@ -87,16 +88,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 65,
                 borderRadius: 10,
                 onPressed: () {
-                  // Provider.of<LogsModel>(context, listen: false).qrCode = '';
-                  // Navigator.pushReplacement(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const AddQRScreen(),
-                  //   ),
-                  // );
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const FarmerLoging(),
+                    ),
+                  );
                 },
                 child: const Text(
-                  'Transporter',
+                  'Resaller',
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.white,
@@ -104,28 +104,27 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-              
             ],
           ),
         ),
-        floatingActionButton: _floatingActionButton(
-          icon: const Icon(
-            Icons.logout,
-          ),
-          onPressed: () {},
-        ),
+        // floatingActionButton: _floatingActionButton(
+        //   icon: const Icon(
+        //     Icons.logout,
+        //   ),
+        //   onPressed: () {},
+        // ),
       ),
     );
   }
 
-  FloatingActionButton _floatingActionButton(
-      {required Icon icon, required VoidCallback? onPressed}) {
-    return FloatingActionButton(
-      isExtended: true,
-      backgroundColor: CustomColors.brownColor,
-      foregroundColor: Colors.white,
-      onPressed: onPressed,
-      child: icon,
-    );
-  }
+  // FloatingActionButton _floatingActionButton(
+  //     {required Icon icon, required VoidCallback? onPressed}) {
+  //   return FloatingActionButton(
+  //     isExtended: true,
+  //     backgroundColor: CustomColors.brownColor,
+  //     foregroundColor: Colors.white,
+  //     onPressed: onPressed,
+  //     child: icon,
+  //   );
+  // }
 }

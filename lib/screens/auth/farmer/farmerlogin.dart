@@ -1,26 +1,27 @@
-import 'package:agromate/blocs/agriofiicer/agriofficelogingbloc.dart';
+import 'package:agromate/blocs/farmer/farmerlogingbloc.dart';
 import 'package:flutter/material.dart';
 import 'package:agromate/configs/custom_colors.dart';
 import 'package:agromate/screens/widgets/button_widget.dart';
 import 'package:agromate/screens/widgets/label_widget.dart';
 import 'package:agromate/screens/widgets/text_field_widget.dart';
 
-class AgriOfficeLoging extends StatefulWidget {
-  const AgriOfficeLoging({Key? key}) : super(key: key);
+
+class FarmerLoging extends StatefulWidget {
+  const FarmerLoging({Key? key}) : super(key: key);
 
   @override
-  State<AgriOfficeLoging> createState() => _AgriOfficeLogingState();
+  State<FarmerLoging> createState() => _FarmerLogingState();
 }
 
-class _AgriOfficeLogingState extends State<AgriOfficeLoging> {
+class _FarmerLogingState extends State<FarmerLoging> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-  late AgriOfficeLoginBloc _loginBloc;
+  late FarmerLoginBloc _loginBloc;
 
   @override
   void initState() {
     super.initState();
-    _loginBloc = AgriOfficeLoginBloc();
+    _loginBloc = FarmerLoginBloc();
   }
 
   @override
@@ -53,7 +54,7 @@ class _AgriOfficeLogingState extends State<AgriOfficeLoging> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'OFFICER - Log In',
+                  'Farmer - Log In',
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
@@ -95,7 +96,7 @@ class _AgriOfficeLogingState extends State<AgriOfficeLoging> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                StreamBuilder<AgriOfficeLoginState>(
+                StreamBuilder<FarmerLoginState>(
                   stream: _loginBloc.state,
                   builder: (context, snapshot) {
                     return ButtonWidget(
@@ -103,7 +104,7 @@ class _AgriOfficeLogingState extends State<AgriOfficeLoging> {
                       height: 45,
                       borderRadius: 10,
                       onPressed: () {
-                        _loginBloc.event.add(AgriOfficeLoginEvent.loginButtonClicked);
+                        _loginBloc.event.add(FarmerLoginEvent.loginButtonClicked);
                       },
                       child: const Text(
                         'Log In',
