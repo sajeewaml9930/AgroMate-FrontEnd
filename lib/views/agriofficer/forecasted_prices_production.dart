@@ -1,7 +1,7 @@
 import 'package:agromate/configs/custom_colors.dart';
 import 'package:agromate/models/common.dart';
-import 'package:agromate/screens/agriofficer/agri_officer_menu.dart';
-import 'package:agromate/screens/home.dart';
+import 'package:agromate/views/agriofficer/agri_officer_menu.dart';
+import 'package:agromate/views/home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

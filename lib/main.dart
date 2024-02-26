@@ -1,4 +1,4 @@
-import 'package:agromate/screens/splashscreen.dart';
+import 'package:agromate/views/splashscreen.dart';
 import 'package:flutter/material.dart';
 
 void main() {

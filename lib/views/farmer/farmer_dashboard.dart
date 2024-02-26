@@ -1,7 +1,7 @@
 import 'package:agromate/configs/custom_colors.dart';
-import 'package:agromate/screens/farmer/farmer_add_production.dart';
-import 'package:agromate/screens/farmer/farmer_menu.dart';
-import 'package:agromate/screens/farmer/farmer_production_history.dart';
+import 'package:agromate/views/farmer/farmer_add_production.dart';
+import 'package:agromate/views/farmer/farmer_menu.dart';
+import 'package:agromate/views/farmer/farmer_production_history.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';

@@ -1,25 +1,25 @@
 import 'dart:convert';
 import 'package:agromate/configs/url_location.dart';
-import 'package:agromate/screens/agriofficer/agri_officer_auth/agri_office_registration.dart';
-import 'package:agromate/screens/agriofficer/agri_officer_home.dart';
-import 'package:agromate/screens/home.dart';
+import 'package:agromate/views/agriofficer/agri_officer_auth/agri_office_registration.dart';
+import 'package:agromate/views/agriofficer/agri_officer_home.dart';
+import 'package:agromate/views/home.dart';
 import 'package:http/http.dart' as http;
 import 'package:agromate/configs/custom_colors.dart';
-import 'package:agromate/screens/widgets/alert_box_widget.dart';
-import 'package:agromate/screens/widgets/button_widget.dart';
-import 'package:agromate/screens/widgets/label_widget.dart';
-import 'package:agromate/screens/widgets/text_field_widget.dart';
+import 'package:agromate/views/widgets/alert_box_widget.dart';
+import 'package:agromate/views/widgets/button_widget.dart';
+import 'package:agromate/views/widgets/label_widget.dart';
+import 'package:agromate/views/widgets/text_field_widget.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
-class resellerLoginScreen extends StatefulWidget {
-  const resellerLoginScreen({super.key});
+class OfficerLoginScreen extends StatefulWidget {
+  const OfficerLoginScreen({super.key});
 
   @override
-  State<resellerLoginScreen> createState() => _resellerLoginScreenState();
+  State<OfficerLoginScreen> createState() => _OfficerLoginScreenState();
 }
 
-class _resellerLoginScreenState extends State<resellerLoginScreen> {
+class _OfficerLoginScreenState extends State<OfficerLoginScreen> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   bool isClicked = false;

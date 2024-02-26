@@ -1,10 +1,10 @@
-import 'package:agromate/screens/agriofficer/farmer_details.dart';
-import 'package:agromate/screens/agriofficer/forecasted_prices_production.dart';
+import 'package:agromate/views/agriofficer/farmer_details.dart';
+import 'package:agromate/views/agriofficer/forecasted_prices_production.dart';
 import 'package:flutter/material.dart';
 
 
-class AgriOfficerMenu extends StatelessWidget {
-  const AgriOfficerMenu({Key? key}) : super(key: key);
+class FarmerMenu extends StatelessWidget {
+  const FarmerMenu({Key? key}) : super(key: key);
 
   void _showSignOutDialog(BuildContext context) {
     showDialog(

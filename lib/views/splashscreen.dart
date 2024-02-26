@@ -1,5 +1,5 @@
 import 'package:agromate/configs/constants.dart';
-import 'package:agromate/screens/home.dart';
+import 'package:agromate/views/home.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {

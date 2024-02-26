@@ -1,5 +1,5 @@
 import 'package:agromate/configs/custom_colors.dart';
-import 'package:agromate/screens/farmer/farmer_menu.dart';
+import 'package:agromate/views/farmer/farmer_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;

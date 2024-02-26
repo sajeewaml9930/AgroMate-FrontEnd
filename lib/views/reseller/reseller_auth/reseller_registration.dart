@@ -1,23 +1,23 @@
 import 'package:agromate/configs/custom_colors.dart';
 import 'package:agromate/configs/url_location.dart';
 import 'package:agromate/models/officer_model.dart';
-import 'package:agromate/screens/agriofficer/agri_officer_auth/agri_office_loging.dart';
-import 'package:agromate/screens/home.dart';
-import 'package:agromate/screens/widgets/alert_box_widget.dart';
-import 'package:agromate/screens/widgets/button_widget.dart';
+import 'package:agromate/views/agriofficer/agri_officer_auth/agri_office_loging.dart';
+import 'package:agromate/views/home.dart';
+import 'package:agromate/views/widgets/alert_box_widget.dart';
+import 'package:agromate/views/widgets/button_widget.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class OfficerRegistration extends StatefulWidget {
-  const OfficerRegistration({super.key});
+class ResellerRegistration extends StatefulWidget {
+  const ResellerRegistration({super.key});
 
   @override
-  _OfficerRegistrationState createState() => _OfficerRegistrationState();
+  _ResellerRegistrationState createState() => _ResellerRegistrationState();
 }
 
-class _OfficerRegistrationState extends State<OfficerRegistration> {
+class _ResellerRegistrationState extends State<ResellerRegistration> {
   bool isClicked = false;
 
   void _showErrorDialog(String message) {

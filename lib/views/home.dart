@@ -1,16 +1,16 @@
-import 'package:agromate/screens/agriofficer/agri_officer_auth/agri_office_loging.dart';
-import 'package:agromate/screens/widgets/button_widget.dart';
+import 'package:agromate/views/agriofficer/agri_officer_auth/agri_office_loging.dart';
+import 'package:agromate/views/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:agromate/configs/custom_colors.dart';
 
-class AgriOfficerHomeScreen extends StatefulWidget {
-  const AgriOfficerHomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  State<AgriOfficerHomeScreen> createState() => _AgriOfficerHomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _AgriOfficerHomeScreenState extends State<AgriOfficerHomeScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     // int userLevel =

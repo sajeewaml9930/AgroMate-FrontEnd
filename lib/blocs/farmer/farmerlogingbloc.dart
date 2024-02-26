@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:agromate/screens/widgets/alert_box_widget.dart';
+import 'package:agromate/views/widgets/alert_box_widget.dart';
 
 enum FarmerLoginEvent {
   loginButtonClicked,
