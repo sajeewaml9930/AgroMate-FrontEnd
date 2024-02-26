@@ -1,4 +1,4 @@
-class Farmer {
+class FarmerMain {
   String name;
   String password;
   String area;
@@ -6,7 +6,7 @@ class Farmer {
   String status;
   String cropType;
 
-  Farmer(
+  FarmerMain(
       {required this.name,
       required this.password,
       required this.area,
@@ -14,4 +14,17 @@ class Farmer {
       required this.status,
       required this.cropType,
       });
+}
+class Farmer {
+  final int id;
+  final String name;
+  final String status;
+  final String lastProduction;
+
+  Farmer({
+    required this.id,
+    required this.name,
+    required this.status,
+    required this.lastProduction,
+  });
 }

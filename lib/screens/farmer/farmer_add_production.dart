@@ -1,3 +1,4 @@
+import 'package:agromate/configs/custom_colors.dart';
 import 'package:agromate/screens/farmer/farmer_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -52,127 +53,136 @@ class _AddProductionState extends State<AddProduction> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Production'),
-          leading: Builder(
-            builder: (BuildContext context) {
-              return IconButton(
-                icon: Icon(Icons.menu),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-              );
+      appBar: AppBar(
+        title: const Text('Production'),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
             },
           ),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-        drawer: const FarmerMenu(),
-        body: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(height: 30.0),
-              Container(
-                width: double.infinity,
-                child: Text(
-                  'Enter Your Production',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Container(height: 20.0),
-              SizedBox(height: 20),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 20),
+        ],
+      ),
+      drawer: const FarmerMenu(),
+      body: Container(
+        color: CustomColors.hazelColor,
+        width: double.infinity,
+        height: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 25),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(height: 30.0),
+                const SizedBox(
+                  width: double.infinity,
                   child: Text(
-                    'Harvested Date',
+                    'Enter Your Production',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: TextField(
-                  controller: dateinput,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.calendar_today),
-                    labelText: "Enter Date",
+                Container(height: 20.0),
+                const SizedBox(height: 20),
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 20),
+                    child: Text(
+                      'Harvested Date',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
                   ),
-                  readOnly: true,
-                  onTap: () async {
-                    DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(
-                            2000), //DateTime.now() - not to allow to choose before today.
-                        lastDate: DateTime(2101));
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: TextField(
+                    controller: dateinput,
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.calendar_today),
+                      labelText: "Enter Date",
+                    ),
+                    readOnly: true,
+                    onTap: () async {
+                      DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(
+                              2000), //DateTime.now() - not to allow to choose before today.
+                          lastDate: DateTime(2101));
 
-                    if (pickedDate != null) {
-                      print(pickedDate);
-                      String formattedDate =
-                          DateFormat('yyyy-MM-dd').format(pickedDate);
-                      print(formattedDate);
-                      setState(() {
-                        dateinput.text = formattedDate;
-                      });
-                      formattedDate = selectedDate;
-                      //sendDate();
-                      if (isDateSend) {
-                        //_fetchData();
+                      if (pickedDate != null) {
+                        print(pickedDate);
+                        String formattedDate =
+                            DateFormat('yyyy-MM-dd').format(pickedDate);
+                        print(formattedDate);
+                        setState(() {
+                          dateinput.text = formattedDate;
+                        });
+                        formattedDate = selectedDate;
+                        //sendDate();
+                        if (isDateSend) {
+                          //_fetchData();
+                        }
+                      } else {
+                        print("Date is not selected");
                       }
-                    } else {
-                      print("Date is not selected");
-                    }
-                  },
+                    },
+                  ),
                 ),
-              ),
-              Container(height: 60.0),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: quantity,
-                  decoration: InputDecoration(
-                    labelText: 'Harvest Quntity in Kilo',
-                    border: OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                    labelStyle: TextStyle(
-                      color: Colors.black,
+                Container(height: 60.0),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: quantity,
+                    decoration: const InputDecoration(
+                      labelText: 'Harvest Quntity in Kilo',
+                      border: OutlineInputBorder(),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      labelStyle: TextStyle(
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Container(height: 100.0),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    _postData(widget.farmerId);
-                  },
-                  child: const Text('Enter'),
+                Container(height: 100.0),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      _postData(widget.farmerId);
+                    },
+                    child: const Text('Enter'),
+                  ),
                 ),
-              ),
-              SizedBox(height: 20),
-            ],
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

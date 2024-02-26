@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class forecasted_prices_n_production extends StatefulWidget {
+  const forecasted_prices_n_production({super.key});
+
   @override
   _forecasted_prices_n_productionState createState() =>
       _forecasted_prices_n_productionState();
@@ -92,7 +94,8 @@ class _forecasted_prices_n_productionState
   }
 
   Future<void> fetchData() async {
-    final response = await http.get(Uri.parse('http://127.0.0.1:5000/forecasted_prices_n_production'));
+    final response = await http
+        .get(Uri.parse('http://127.0.0.1:5000/forecasted_prices_n_production'));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -122,187 +125,195 @@ class _forecasted_prices_n_productionState
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-        title: const Text(
-          'OFFICER FORECASTING',
-          style: TextStyle(
-            color: Colors.white, // Choose your desired color
+          title: const Text(
+            'OFFICER FORECASTING',
+            style: TextStyle(
+              color: Colors.white, // Choose your desired color
+            ),
           ),
-        ),
-        centerTitle: true,
-        backgroundColor: CustomColors.greenColor,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const HomeScreen(),
+          centerTitle: true,
+          backgroundColor: CustomColors.greenColor,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const HomeScreen(),
+              ),
             ),
           ),
         ),
-      ),
         drawer: const AgriOfficerMenu(),
         body: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(height: 30.0),
-              Container(
-                width: double.infinity,
-                child: Text(
-                  'Forecasted Value',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
+          color: CustomColors.hazelColor,
+          width: double.infinity,
+          height: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 25),
+          child: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(height: 30.0),
+                  Container(
+                    width: double.infinity,
+                    child: Text(
+                      'Forecasted Value',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              Container(height: 20.0),
-              Container(
-                padding: EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: DropdownButton(
-                        value: _selectedYear,
-                        items: _buildYearItems(),
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedYear = value!;
-                          });
-                        },
-                        isExpanded: true,
-                        hint: Text('Year'),
+                  Container(height: 20.0),
+                  Container(
+                    padding: EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: DropdownButton(
+                            value: _selectedYear,
+                            items: _buildYearItems(),
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedYear = value!;
+                              });
+                            },
+                            isExpanded: true,
+                            hint: Text('Year'),
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: DropdownButton(
+                            value: _selectedMonth,
+                            items: _buildMonthItems(),
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedMonth = value!;
+                              });
+                            },
+                            isExpanded: true,
+                            hint: Text('Month'),
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: DropdownButton(
+                            value: _selectedWeek,
+                            items: _buildWeekItems(),
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedWeek = value!;
+                              });
+                            },
+                            isExpanded: true,
+                            hint: Text('Week'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(height: 60.0),
+                  Container(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Date date = Date(
+                            Year: _selectedYear.toString(),
+                            Month: _selectedMonth.toString(),
+                            Week: _selectedWeek.toString());
+                        //print(date.Month + date.Week);
+                        postDate(date);
+                      },
+                      child: Text(
+                        'Forecast',
+                        style: TextStyle(fontSize: 15),
                       ),
                     ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: DropdownButton(
-                        value: _selectedMonth,
-                        items: _buildMonthItems(),
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedMonth = value!;
-                          });
-                        },
-                        isExpanded: true,
-                        hint: Text('Month'),
+                  ),
+                  Container(height: 60.0),
+                  Container(
+                    width: double.infinity,
+                    child: Text(
+                      'Production',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white70, // add this line
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      width: double.infinity,
+                      padding: EdgeInsets.all(20.0),
+                      child: Text(
+                        "$forecasatedProduction" + " Tones",
+                        // '$productionValue Tonne',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: DropdownButton(
-                        value: _selectedWeek,
-                        items: _buildWeekItems(),
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedWeek = value!;
-                          });
-                        },
-                        isExpanded: true,
-                        hint: Text('Week'),
+                  ),
+                  Container(height: 30.0),
+                  Container(
+                    width: double.infinity,
+                    child: Text(
+                      'Price',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white70, // add this line
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      width: double.infinity,
+                      padding: EdgeInsets.all(20.0),
+                      child: Text(
+                        "Rs. " + "$forecastedPrice",
+                        //'Rs. $priceValue',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Container(height: 60.0),
-              Container(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Date date = Date(
-                        Year: _selectedYear.toString(),
-                        Month: _selectedMonth.toString(),
-                        Week: _selectedWeek.toString());
-                    //print(date.Month + date.Week);
-                    postDate(date);
-                  },
-                  child: Text(
-                    'Forecast',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                ),
-              ),
-              Container(height: 60.0),
-              Container(
-                width: double.infinity,
-                child: Text(
-                  'Production',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              SizedBox(height: 20),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white70, // add this line
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 2.0,
-                    ),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  width: double.infinity,
-                  padding: EdgeInsets.all(20.0),
-                  child: Text(
-                    "$forecasatedProduction" + " Tones",
-                    // '$productionValue Tonne',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-              Container(height: 30.0),
-              Container(
-                width: double.infinity,
-                child: Text(
-                  'Price',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              SizedBox(height: 20),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white70, // add this line
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 2.0,
-                    ),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  width: double.infinity,
-                  padding: EdgeInsets.all(20.0),
-                  child: Text(
-                    "Rs. " + "$forecastedPrice",
-                    //'Rs. $priceValue',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
         ));
   }

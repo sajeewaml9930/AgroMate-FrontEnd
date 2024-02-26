@@ -1,3 +1,4 @@
+import 'package:agromate/configs/custom_colors.dart';
 import 'package:flutter/material.dart';
 //import 'OfficerMenu.dart';
 import 'dart:convert';
@@ -34,7 +35,6 @@ class _FarmerHistoryState extends State<FarmerHistory> {
         'http://127.0.0.1:5000/production/$farmerID')); // replace with your API URL
     final List<dynamic> data = json.decode(response.body);
     setState(() {
-
       production = data
           .map((item) => Production(
                 id: item['id'],
@@ -55,7 +55,7 @@ class _FarmerHistoryState extends State<FarmerHistory> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Farmer Details'),
+        title: const Text('Farmer Details'),
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
@@ -68,7 +68,7 @@ class _FarmerHistoryState extends State<FarmerHistory> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -77,44 +77,51 @@ class _FarmerHistoryState extends State<FarmerHistory> {
       ),
       //drawer: Menu(),
       body: Container(
-        constraints: BoxConstraints.expand(),
-        child: Column(
-          children: [
-            Container(height: 30.0),    
-            Container(height: 30.0),
-            Padding(
-              padding: EdgeInsets.only(top: 20),
-              child: Text(
-                "Hi, "+ widget.farmerName,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+        color: CustomColors.hazelColor,
+        width: double.infinity,
+        height: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 25),
+        child: Center(
+          child: SingleChildScrollView(
+            // constraints: BoxConstraints.expand(),
+            child: Column(
+              children: [
+                Container(height: 30.0),
+                Container(height: 30.0),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text(
+                    "Hi, " + widget.farmerName,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-                textAlign: TextAlign.center,
-              ),
+                Container(height: 30.0),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                    columns: const [
+                      DataColumn(label: Text('ID')),
+                      DataColumn(label: Text('Date')),
+                      DataColumn(label: Text('Quntity')),
+                    ],
+                    rows: production
+                        .map((production) => DataRow(cells: [
+                              DataCell(Text(production.id.toString())),
+                              DataCell(Text(
+                                  production.date.toString().substring(0, 10))),
+                              DataCell(Text(production.quantity.toString())),
+                            ]))
+                        .toList(),
+                  ),
+                ),
+              ],
             ),
-            Container(height: 30.0),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: DataTable(
-                columns: [
-                  DataColumn(label: Text('ID')),
-                  DataColumn(label: Text('Date')),
-                  DataColumn(label: Text('Quntity')),
-              
-                ],
-                rows: production
-                    .map((production) => DataRow(cells: [
-                          DataCell(Text(production.id.toString())),
-                          DataCell(Text(production.date.toString().substring(0, 10))),
-                          DataCell(Text(production.quantity.toString())),
-                          
-                        ]))
-                    .toList(),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

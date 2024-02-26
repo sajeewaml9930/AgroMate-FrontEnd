@@ -95,68 +95,70 @@ class _FarmerGuidanceState extends State<FarmerGuidance> {
         padding: const EdgeInsets.symmetric(horizontal: 25),
         child: Center(
           child: SingleChildScrollView(
-        // constraints: const BoxConstraints.expand(),
-        child: Column(
-          children: [
-            Container(height: 30.0),
-            Padding(
-              padding: const EdgeInsets.all(8.0), // Add desired padding
-              child: DropdownButtonFormField<String>(
-                value: _selectedStatus,
-                onChanged: (value) {
-                  setState(() {
-                    _selectedStatus = value!;
-                    updateFarmerStatus();
-                  });
-                  //widget.onChanged(value!);
-                },
-                items: <String>['Seed', 'Maintain', 'Harvest']
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                decoration: const InputDecoration(
-                  labelText: 'Change Status',
-                  border: OutlineInputBorder(),
+            // constraints: const BoxConstraints.expand(),
+            child: Column(
+              children: [
+                Container(height: 30.0),
+                Padding(
+                  padding: const EdgeInsets.all(8.0), // Add desired padding
+                  child: DropdownButtonFormField<String>(
+                    value: _selectedStatus,
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedStatus = value!;
+                        updateFarmerStatus();
+                      });
+                      //widget.onChanged(value!);
+                    },
+                    items: <String>['Seed', 'Maintain', 'Harvest']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    decoration: const InputDecoration(
+                      labelText: 'Change Status',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Container(height: 30.0),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Text(
-                widget.farmerName + "'s Production History",
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                Container(height: 30.0),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text(
+                    widget.farmerName + "'s Production History",
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-                textAlign: TextAlign.center,
-              ),
+                Container(height: 30.0),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: DataTable(
+                    columns: const [
+                      DataColumn(label: Text('ID')),
+                      DataColumn(label: Text('Date')),
+                      DataColumn(label: Text('Quntity')),
+                    ],
+                    rows: production
+                        .map((production) => DataRow(cells: [
+                              DataCell(Text(production.id.toString())),
+                              DataCell(Text(
+                                  production.date.toString().substring(0, 10))),
+                              DataCell(Text(production.quantity.toString())),
+                            ]))
+                        .toList(),
+                  ),
+                ),
+              ],
             ),
-            Container(height: 30.0),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: DataTable(
-                columns: const [
-                  DataColumn(label: Text('ID')),
-                  DataColumn(label: Text('Date')),
-                  DataColumn(label: Text('Quntity')),
-                ],
-                rows: production
-                    .map((production) => DataRow(cells: [
-                          DataCell(Text(production.id.toString())),
-                          DataCell(Text(
-                              production.date.toString().substring(0, 10))),
-                          DataCell(Text(production.quantity.toString())),
-                        ]))
-                    .toList(),
-              ),
-            ),
-          ],
-        ),),),
+          ),
+        ),
       ),
     );
   }

@@ -1,23 +1,10 @@
+import 'package:agromate/configs/custom_colors.dart';
 import 'package:agromate/screens/farmer/farmer_add_production.dart';
 import 'package:agromate/screens/farmer/farmer_menu.dart';
 import 'package:agromate/screens/farmer/farmer_production_history.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
-class Farmer {
-  final int id;
-  final String name;
-  final String status;
-  final String lastProduction;
-
-  Farmer({
-    required this.id,
-    required this.name,
-    required this.status,
-    required this.lastProduction,
-  });
-}
 
 class FarmerDashBoard extends StatefulWidget {
   final int farmerId;
@@ -66,59 +53,43 @@ class _FarmerDashBoardState extends State<FarmerDashBoard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Farmer DashBoard'),
-          leading: Builder(
-            builder: (BuildContext context) {
-              return IconButton(
-                icon: Icon(Icons.menu),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-              );
+      appBar: AppBar(
+        title: const Text('Farmer DashBoard'),
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
             },
           ),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
-        drawer: const FarmerMenu(),
-        body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("Img/backgroud.jpg"),
-              fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(
-                Colors.white.withOpacity(0.5),
-                BlendMode.dstIn,
-              ),
-            ),
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.transparent,
-                Colors.black.withOpacity(0.7),
-              ],
-              stops: [
-                0.0,
-                1.0,
-              ],
-            ),
-          ),
+        ],
+      ),
+      drawer: const FarmerMenu(),
+      body: Container(
+        color: CustomColors.hazelColor,
+        width: double.infinity,
+        height: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 25),
+        child: Center(
+            child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 20),
+                padding: const EdgeInsets.only(left: 20),
                 child: Row(
                   children: [
-                    Expanded(
+                    const Expanded(
                       child: Column(
                         children: [
                           Text(
@@ -133,7 +104,7 @@ class _FarmerDashBoardState extends State<FarmerDashBoard> {
                         ],
                       ),
                     ),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     Column(
                       children: [
                         SizedBox(
@@ -148,10 +119,10 @@ class _FarmerDashBoardState extends State<FarmerDashBoard> {
                               ),
                               borderRadius: BorderRadius.circular(10.0),
                             ),
-                            padding: EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(10.0),
                             child: Text(
-                              this.status,
-                              style: TextStyle(
+                              status,
+                              style: const TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
@@ -162,7 +133,7 @@ class _FarmerDashBoardState extends State<FarmerDashBoard> {
                         ),
                       ],
                     ),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                   ],
                 ),
               ),
@@ -172,10 +143,12 @@ class _FarmerDashBoardState extends State<FarmerDashBoard> {
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AddProduction(farmerId: widget.farmerId,),
-                    ));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AddProduction(
+                            farmerId: widget.farmerId,
+                          ),
+                        ));
                   },
                   child: const Text('Add Production'),
                 ),
@@ -199,6 +172,8 @@ class _FarmerDashBoardState extends State<FarmerDashBoard> {
               ),
             ],
           ),
-        ));
+        )),
+      ),
+    );
   }
 }
