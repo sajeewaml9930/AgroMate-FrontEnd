@@ -1,24 +1,11 @@
 import 'package:agromate/configs/custom_colors.dart';
+import 'package:agromate/models/farmer_model.dart';
 import 'package:agromate/views/agriofficer/agri_officer_menu.dart';
 import 'package:agromate/views/agriofficer/farmer_guidance.dart';
 import 'package:agromate/views/home.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
-class Farmer {
-  final int id;
-  final String name;
-  final String status;
-  final String lastProduction;
-
-  Farmer({
-    required this.id,
-    required this.name,
-    required this.status,
-    required this.lastProduction,
-  });
-}
 
 class FarmerDetails extends StatefulWidget {
   @override

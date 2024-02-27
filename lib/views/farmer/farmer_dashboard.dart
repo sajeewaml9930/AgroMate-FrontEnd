@@ -163,7 +163,6 @@ class _FarmerDashBoardState extends State<FarmerDashBoard> {
                       MaterialPageRoute(
                           builder: (context) => FarmerHistory(
                                 farmerId: widget.farmerId,
-                                farmerName: farmerName,
                               )),
                     );
                   },

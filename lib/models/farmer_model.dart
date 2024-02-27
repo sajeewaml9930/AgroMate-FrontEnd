@@ -28,3 +28,15 @@ class Farmer {
     required this.lastProduction,
   });
 }
+
+class Production {
+  final int id;
+  final DateTime date;
+  final double quantity;
+
+  Production({
+    required this.id,
+    required this.date,
+    required this.quantity,
+  });
+}

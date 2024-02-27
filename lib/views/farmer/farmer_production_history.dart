@@ -1,26 +1,16 @@
 import 'package:agromate/configs/custom_colors.dart';
+import 'package:agromate/models/farmer_model.dart';
 import 'package:flutter/material.dart';
 //import 'OfficerMenu.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class Production {
-  final int id;
-  final DateTime date;
-  final double quantity;
 
-  Production({
-    required this.id,
-    required this.date,
-    required this.quantity,
-  });
-}
 
 class FarmerHistory extends StatefulWidget {
   final int farmerId;
-  final String farmerName;
 
-  FarmerHistory({required this.farmerId, required this.farmerName});
+  FarmerHistory({required this.farmerId});
 
   @override
   _FarmerHistoryState createState() => _FarmerHistoryState();
@@ -28,6 +18,8 @@ class FarmerHistory extends StatefulWidget {
 
 class _FarmerHistoryState extends State<FarmerHistory> {
   List<Production> production = [];
+  String status = "";
+  String farmerName = "";
   //String _selectedStatus = 'Seed';
 
   Future<void> _fetchProduction(int farmerID) async {
@@ -44,6 +36,22 @@ class _FarmerHistoryState extends State<FarmerHistory> {
           .toList();
     });
   }
+  Future<void> _fetchStatus(int farmerId) async {
+    final response =
+        await http.get(Uri.parse('http://127.0.0.1:5000/farmer/$farmerId'));
+    if (response.statusCode == 200) {
+      final jsonResponse = json.decode(response.body);
+      String name = jsonResponse['name'];
+      String status = jsonResponse['status'];
+      setState(() {
+        this.status = status;
+        farmerName = name;
+      });
+    } else {
+      throw Exception('Failed to fetch data');
+    }
+  }
+  
 
   @override
   void initState() {
@@ -91,7 +99,7 @@ class _FarmerHistoryState extends State<FarmerHistory> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: Text(
-                    "Hi, " + widget.farmerName,
+                    "Hi, $farmerName",
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
