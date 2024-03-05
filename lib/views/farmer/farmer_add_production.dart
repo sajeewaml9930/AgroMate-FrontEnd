@@ -1,4 +1,5 @@
 import 'package:agromate/configs/custom_colors.dart';
+import 'package:agromate/configs/url_location.dart';
 import 'package:agromate/views/farmer/farmer_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -23,7 +24,7 @@ class _AddProductionState extends State<AddProduction> {
   bool isDateSend = false;
 
   Future<void> _postData(int id) async {
-    final url = Uri.parse('http://127.0.0.1:5000/farmers/1/productions');
+    final url = Uri.parse('${UrlLocation.Url}/farmers/1/productions');
     final headers = {'Content-Type': 'application/json'};
     final body = json.encode({
       'date': dateinput,

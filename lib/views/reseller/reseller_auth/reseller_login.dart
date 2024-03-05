@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:agromate/configs/url_location.dart';
-import 'package:agromate/views/agriofficer/agri_officer_auth/agri_office_registration.dart';
 import 'package:agromate/views/agriofficer/agri_officer_home.dart';
 import 'package:agromate/views/home.dart';
+import 'package:agromate/views/reseller/reseller_auth/reseller_registration.dart';
 import 'package:http/http.dart' as http;
 import 'package:agromate/configs/custom_colors.dart';
 import 'package:agromate/views/widgets/alert_box_widget.dart';
@@ -144,7 +144,7 @@ class _resellerLoginScreenState extends State<resellerLoginScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Officer Login',
+          'Reseller Login',
           style: TextStyle(
             color: Colors.white, // Choose your desired color
           ),
@@ -268,7 +268,7 @@ class _resellerLoginScreenState extends State<resellerLoginScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  const OfficerRegistration()),
+                                  const ResellerRegistration()),
                         );
                       },
                       child: const Text(

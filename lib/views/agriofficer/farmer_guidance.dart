@@ -1,4 +1,5 @@
 import 'package:agromate/configs/custom_colors.dart';
+import 'package:agromate/configs/url_location.dart';
 import 'package:agromate/views/agriofficer/agri_officer_menu.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -32,7 +33,7 @@ class _FarmerGuidanceState extends State<FarmerGuidance> {
 
   Future<Map<String, dynamic>> updateFarmerStatus() async {
     final String apiUrl =
-        'http://127.0.0.1:5000/update_farmers_status/${widget.farmerId}';
+        '${UrlLocation.Url}/update_farmers_status/${widget.farmerId}';
     final response = await http.put(Uri.parse(apiUrl),
         body: jsonEncode({'status': _selectedStatus}));
     if (response.statusCode == 200) {
@@ -44,7 +45,7 @@ class _FarmerGuidanceState extends State<FarmerGuidance> {
 
   Future<void> _fetchProduction(int farmerID) async {
     final response = await http.get(Uri.parse(
-        'http://127.0.0.1:5000/production/$farmerID')); // replace with your API URL
+        '${UrlLocation.Url}/production/$farmerID')); // replace with your API URL
     final List<dynamic> data = json.decode(response.body);
     setState(() {
       production = data

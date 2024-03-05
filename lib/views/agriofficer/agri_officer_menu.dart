@@ -11,16 +11,16 @@ class AgriOfficerMenu extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Are you sure you want to sign out?'),
+          title: const Text('Are you sure you want to sign out?'),
           actions: <Widget>[
             TextButton(
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Sign Out'),
+              child: const Text('Sign Out'),
               onPressed: () {
                 // Add sign-out logic here
                 // Navigator.push(
@@ -60,29 +60,29 @@ class AgriOfficerMenu extends StatelessWidget {
           //   },
           // ),
           ListTile(
-            leading: Icon(Icons.ad_units),
-            title: Text('Farmer Details'),
+            leading: const Icon(Icons.ad_units),
+            title: const Text('Farmer Details'),
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => FarmerDetails()),
+                MaterialPageRoute(builder: (context) => const FarmerDetails()),
               );
             },
           ),
           ListTile(
-            leading: Icon(Icons.storage),
-            title: Text('Forecasted Prices n Production'),
+            leading: const Icon(Icons.storage),
+            title: const Text('Forecasted Prices n Production'),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => forecasted_prices_n_production()),
+                    builder: (context) => const forecasted_prices_n_production()),
               );
             },
           ),
           ListTile(
-            leading: Icon(Icons.logout),
-            title: Text('sign Out'),
+            leading: const Icon(Icons.logout),
+            title: const Text('sign Out'),
             onTap: () {
               _showSignOutDialog(context);
             },

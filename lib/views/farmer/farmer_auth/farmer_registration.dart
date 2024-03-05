@@ -82,7 +82,7 @@ class _FarmerRegistrationState extends State<FarmerRegistration> {
     return Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Officer Registration',
+            'Farmer Registration',
             style: TextStyle(
               color: Colors.white, // Choose your desired color
             ),

@@ -1,4 +1,5 @@
 import 'package:agromate/configs/custom_colors.dart';
+import 'package:agromate/configs/url_location.dart';
 import 'package:agromate/models/farmer_model.dart';
 import 'package:flutter/material.dart';
 //import 'OfficerMenu.dart';
@@ -24,7 +25,7 @@ class _FarmerHistoryState extends State<FarmerHistory> {
 
   Future<void> _fetchProduction(int farmerID) async {
     final response = await http.get(Uri.parse(
-        'http://127.0.0.1:5000/production/$farmerID')); // replace with your API URL
+        '${UrlLocation.Url}/production/$farmerID')); // replace with your API URL
     final List<dynamic> data = json.decode(response.body);
     setState(() {
       production = data
@@ -38,7 +39,7 @@ class _FarmerHistoryState extends State<FarmerHistory> {
   }
   Future<void> _fetchStatus(int farmerId) async {
     final response =
-        await http.get(Uri.parse('http://127.0.0.1:5000/farmer/$farmerId'));
+        await http.get(Uri.parse('${UrlLocation.Url}/farmer/$farmerId'));
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       String name = jsonResponse['name'];
@@ -67,7 +68,7 @@ class _FarmerHistoryState extends State<FarmerHistory> {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: Icon(Icons.menu),
+              icon: const Icon(Icons.menu),
               onPressed: () {
                 Scaffold.of(context).openDrawer();
               },

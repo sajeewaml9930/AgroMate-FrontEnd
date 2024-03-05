@@ -1,8 +1,8 @@
 import 'package:agromate/configs/custom_colors.dart';
+import 'package:agromate/configs/url_location.dart';
 import 'package:agromate/models/common.dart';
 import 'package:agromate/views/agriofficer/agri_officer_menu.dart';
 import 'package:agromate/views/home.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -24,7 +24,7 @@ class _forecasted_prices_n_productionState
   String selectedDate = "";
 
   bool isDateSend = false;
-  int _selectedYear = 2022;
+  int _selectedYear = 2024;
   int _selectedMonth = 1;
   int _selectedWeek = 1;
 
@@ -69,7 +69,7 @@ class _forecasted_prices_n_productionState
 
   Future<void> postDate(Date userData) async {
     final url = Uri.parse(
-        'http://127.0.0.1:5000/predict'); // Replace with your API endpoint URL
+        '${UrlLocation.Url}/predict'); // Replace with your API endpoint URL
     final headers = <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     };
@@ -83,19 +83,19 @@ class _forecasted_prices_n_productionState
       );
 
       if (response.statusCode == 200) {
-        print('Data posted successfully');
+        //print('Data posted successfully');
         fetchData();
       } else {
-        print('Failed to post data. Status code: ${response.statusCode}');
+        //print('Failed to post data. Status code: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error posting data: $e');
+      //print('Error posting data: $e');
     }
   }
 
   Future<void> fetchData() async {
     final response = await http
-        .get(Uri.parse('http://127.0.0.1:5000/forecasted_prices_n_production'));
+        .get(Uri.parse('${UrlLocation.Url}/forecasted_prices_n_production'));
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
@@ -155,7 +155,7 @@ class _forecasted_prices_n_productionState
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Container(height: 30.0),
-                  Container(
+                  const SizedBox(
                     width: double.infinity,
                     child: Text(
                       'Forecasted Value',
@@ -169,7 +169,7 @@ class _forecasted_prices_n_productionState
                   ),
                   Container(height: 20.0),
                   Container(
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: Row(
                       children: [
                         Expanded(
@@ -182,10 +182,10 @@ class _forecasted_prices_n_productionState
                               });
                             },
                             isExpanded: true,
-                            hint: Text('Year'),
+                            hint: const Text('Year'),
                           ),
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         Expanded(
                           child: DropdownButton(
                             value: _selectedMonth,
@@ -196,10 +196,10 @@ class _forecasted_prices_n_productionState
                               });
                             },
                             isExpanded: true,
-                            hint: Text('Month'),
+                            hint: const Text('Month'),
                           ),
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         Expanded(
                           child: DropdownButton(
                             value: _selectedWeek,
@@ -210,31 +210,29 @@ class _forecasted_prices_n_productionState
                               });
                             },
                             isExpanded: true,
-                            hint: Text('Week'),
+                            hint: const Text('Week'),
                           ),
                         ),
                       ],
                     ),
                   ),
                   Container(height: 60.0),
-                  Container(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Date date = Date(
-                            Year: _selectedYear.toString(),
-                            Month: _selectedMonth.toString(),
-                            Week: _selectedWeek.toString());
-                        //print(date.Month + date.Week);
-                        postDate(date);
-                      },
-                      child: Text(
-                        'Forecast',
-                        style: TextStyle(fontSize: 15),
-                      ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Date date = Date(
+                          Year: _selectedYear.toString(),
+                          Month: _selectedMonth.toString(),
+                          Week: _selectedWeek.toString());
+                      //print(date.Month + date.Week);
+                      postDate(date);
+                    },
+                    child: const Text(
+                      'Forecast',
+                      style: TextStyle(fontSize: 15),
                     ),
                   ),
                   Container(height: 60.0),
-                  Container(
+                  const SizedBox(
                     width: double.infinity,
                     child: Text(
                       'Production',
@@ -246,9 +244,9 @@ class _forecasted_prices_n_productionState
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white70, // add this line
@@ -259,11 +257,11 @@ class _forecasted_prices_n_productionState
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       width: double.infinity,
-                      padding: EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(20.0),
                       child: Text(
-                        "$forecasatedProduction" + " Tones",
+                        "$forecasatedProduction Tones",
                         // '$productionValue Tonne',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
@@ -273,7 +271,7 @@ class _forecasted_prices_n_productionState
                     ),
                   ),
                   Container(height: 30.0),
-                  Container(
+                  const SizedBox(
                     width: double.infinity,
                     child: Text(
                       'Price',
@@ -285,9 +283,9 @@ class _forecasted_prices_n_productionState
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white70, // add this line
@@ -298,11 +296,11 @@ class _forecasted_prices_n_productionState
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                       width: double.infinity,
-                      padding: EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(20.0),
                       child: Text(
-                        "Rs. " + "$forecastedPrice",
+                        "Rs. $forecastedPrice",
                         //'Rs. $priceValue',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,

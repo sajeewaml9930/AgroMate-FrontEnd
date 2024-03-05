@@ -81,7 +81,7 @@ class _ResellerRegistrationState extends State<ResellerRegistration> {
     return Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Officer Registration',
+            'Reseller Registration',
             style: TextStyle(
               color: Colors.white, // Choose your desired color
             ),

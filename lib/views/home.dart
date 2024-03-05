@@ -1,4 +1,6 @@
 import 'package:agromate/views/agriofficer/agri_officer_auth/agri_office_loging.dart';
+import 'package:agromate/views/farmer/farmer_auth/farmer_login.dart';
+import 'package:agromate/views/reseller/reseller_auth/reseller_login.dart';
 import 'package:agromate/views/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:agromate/configs/custom_colors.dart';
@@ -67,13 +69,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 65,
                 borderRadius: 10,
                 onPressed: () {
-                  // Provider.of<LogsModel>(context, listen: false).qrCode = '';
-                  // Navigator.pushReplacement(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const FarmerLoging(),
-                  //   ),
-                  // );
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const FarmerLoginScreen(),
+                    ),
+                  );
                 },
                 child: const Text(
                   'Farmer',
@@ -90,12 +91,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 65,
                 borderRadius: 10,
                 onPressed: () {
-                  // Navigator.pushReplacement(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => const FarmerLoging(),
-                  //   ),
-                  // );
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const resellerLoginScreen(),
+                    ),
+                  );
                 },
                 child: const Text(
                   'Resaller',

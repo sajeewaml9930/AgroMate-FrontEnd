@@ -1,4 +1,5 @@
 import 'package:agromate/configs/custom_colors.dart';
+import 'package:agromate/configs/url_location.dart';
 import 'package:agromate/models/farmer_model.dart';
 import 'package:agromate/views/agriofficer/agri_officer_menu.dart';
 import 'package:agromate/views/agriofficer/farmer_guidance.dart';
@@ -8,6 +9,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class FarmerDetails extends StatefulWidget {
+  const FarmerDetails({super.key});
+
   @override
   _FarmerDetailsState createState() => _FarmerDetailsState();
 }
@@ -17,7 +20,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
 
   Future<void> _fetchFarmers() async {
     final response = await http.get(Uri.parse(
-        'http://127.0.0.1:5000/farmers')); // replace with your API URL
+        '${UrlLocation.Url}/farmers')); // replace with your API URL
     final List<dynamic> data = json.decode(response.body);
     setState(() {
       farmers = data
@@ -113,7 +116,7 @@ class _FarmerDetailsState extends State<FarmerDetails> {
                                       ),
                                     );
                                   },
-                                  child: Text('Change'),
+                                  child: const Text('Change'),
                                 ),
                               ),
                             ]))

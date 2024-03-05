@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:agromate/configs/url_location.dart';
-import 'package:agromate/views/agriofficer/agri_officer_auth/agri_office_registration.dart';
 import 'package:agromate/views/agriofficer/agri_officer_home.dart';
+import 'package:agromate/views/farmer/farmer_auth/farmer_registration.dart';
 import 'package:agromate/views/home.dart';
 import 'package:http/http.dart' as http;
 import 'package:agromate/configs/custom_colors.dart';
@@ -145,7 +145,7 @@ class _FarmerLoginScreenState extends State<FarmerLoginScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Officer Login',
+          'Farmer Login',
           style: TextStyle(
             color: Colors.white, // Choose your desired color
           ),
@@ -268,7 +268,7 @@ class _FarmerLoginScreenState extends State<FarmerLoginScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const OfficerRegistration()),
+                          builder: (context) => const FarmerRegistration()),
                     );
                   },
                       child: const Text(

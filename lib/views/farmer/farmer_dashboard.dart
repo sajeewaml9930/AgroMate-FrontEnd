@@ -1,4 +1,5 @@
 import 'package:agromate/configs/custom_colors.dart';
+import 'package:agromate/configs/url_location.dart';
 import 'package:agromate/views/farmer/farmer_add_production.dart';
 import 'package:agromate/views/farmer/farmer_menu.dart';
 import 'package:agromate/views/farmer/farmer_production_history.dart';
@@ -22,7 +23,7 @@ class _FarmerDashBoardState extends State<FarmerDashBoard> {
 
   Future<void> _fetchStatus(int farmerId) async {
     final response =
-        await http.get(Uri.parse('http://127.0.0.1:5000/farmer/$farmerId'));
+        await http.get(Uri.parse('${UrlLocation.Url}/farmer/$farmerId'));
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       String name = jsonResponse['name'];
