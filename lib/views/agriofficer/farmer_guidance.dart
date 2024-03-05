@@ -1,5 +1,6 @@
 import 'package:agromate/configs/custom_colors.dart';
 import 'package:agromate/configs/url_location.dart';
+import 'package:agromate/views/agriofficer/agri_officer_home.dart';
 import 'package:agromate/views/agriofficer/agri_officer_menu.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -21,7 +22,8 @@ class FarmerGuidance extends StatefulWidget {
   final int farmerId;
   final String farmerName;
 
-  const FarmerGuidance({required this.farmerId, required this.farmerName});
+  const FarmerGuidance(
+      {super.key, required this.farmerId, required this.farmerName});
 
   @override
   _FarmerGuidanceState createState() => _FarmerGuidanceState();
@@ -68,25 +70,23 @@ class _FarmerGuidanceState extends State<FarmerGuidance> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Farmer Details'),
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            );
-          },
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+        title: const Text(
+          'Farmer Details',
+          style: TextStyle(
+            color: Colors.white, // Choose your desired color
           ),
-        ],
+        ),
+        centerTitle: true,
+        backgroundColor: CustomColors.greenColor,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AgriOfficerHomeScreen(),
+            ),
+          ),
+        ),
       ),
       drawer: const AgriOfficerMenu(),
       body: Container(
@@ -128,7 +128,7 @@ class _FarmerGuidanceState extends State<FarmerGuidance> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: Text(
-                    widget.farmerName + "'s Production History",
+                    "${widget.farmerName}'s Production History",
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,

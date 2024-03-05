@@ -15,10 +15,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    // int userLevel =
-    //     Provider.of<AuthModel>(context, listen: false).user?.userLevel ?? 0;
-
-    return SafeArea(
+    return WillPopScope(
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -29,107 +26,118 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           centerTitle: true,
           backgroundColor: CustomColors.greenColor,
-          automaticallyImplyLeading: false, 
+          automaticallyImplyLeading: false,
         ),
-
         body: Container(
           color: CustomColors.hazelColor,
           width: double.infinity,
           height: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Center(
-          child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ButtonWidget(
-                width: 300,
-                height: 65,
-                borderRadius: 10,
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const OfficerLoginScreen(),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ButtonWidget(
+                    width: 300,
+                    height: 65,
+                    borderRadius: 10,
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const OfficerLoginScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      'Officer',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  );
-                },
-                child: const Text(
-                  'Officer',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
                   ),
-                ),
-              ),
-              const SizedBox(height: 40),
-              ButtonWidget(
-                width: 300,
-                height: 65,
-                borderRadius: 10,
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const FarmerLoginScreen(),
+                  const SizedBox(height: 40),
+                  ButtonWidget(
+                    width: 300,
+                    height: 65,
+                    borderRadius: 10,
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const FarmerLoginScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      'Farmer',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  );
-                },
-                child: const Text(
-                  'Farmer',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
                   ),
-                ),
-              ),
-              const SizedBox(height: 40),
-              ButtonWidget(
-                width: 300,
-                height: 65,
-                borderRadius: 10,
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const resellerLoginScreen(),
+                  const SizedBox(height: 40),
+                  ButtonWidget(
+                    width: 300,
+                    height: 65,
+                    borderRadius: 10,
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const resellerLoginScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      'Resaller',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  );
-                },
-                child: const Text(
-                  'Resaller',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
-        ),
-        // floatingActionButton: _floatingActionButton(
-        //   icon: const Icon(
-        //     Icons.logout,
-        //   ),
-        //   onPressed: () {},
-        // ),
-      ),
+      onWillPop: () async {
+        final shouldPop = await showDialog<bool>(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Exit'),
+              content: const Text('Are you sure you want to exit the app?'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                  },
+                  child: const Text('Yes'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, false);
+                  },
+                  child: const Text(
+                    'No',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+        return shouldPop!;
+      }
     );
   }
-
-  // FloatingActionButton _floatingActionButton(
-  //     {required Icon icon, required VoidCallback? onPressed}) {
-  //   return FloatingActionButton(
-  //     isExtended: true,
-  //     backgroundColor: CustomColors.brownColor,
-  //     foregroundColor: Colors.white,
-  //     onPressed: onPressed,
-  //     child: icon,
-  //   );
-  // }
 }

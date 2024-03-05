@@ -1,8 +1,8 @@
 import 'package:agromate/configs/custom_colors.dart';
 import 'package:agromate/configs/url_location.dart';
 import 'package:agromate/models/common.dart';
+import 'package:agromate/views/agriofficer/agri_officer_home.dart';
 import 'package:agromate/views/agriofficer/agri_officer_menu.dart';
-import 'package:agromate/views/home.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -138,7 +138,7 @@ class _forecasted_prices_n_productionState
             onPressed: () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
+                builder: (context) => const AgriOfficerHomeScreen(),
               ),
             ),
           ),

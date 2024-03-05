@@ -2,7 +2,6 @@ import 'package:agromate/views/agriofficer/farmer_details.dart';
 import 'package:agromate/views/agriofficer/forecasted_prices_production.dart';
 import 'package:flutter/material.dart';
 
-
 class AgriOfficerMenu extends StatelessWidget {
   const AgriOfficerMenu({Key? key}) : super(key: key);
 
@@ -49,16 +48,6 @@ class AgriOfficerMenu extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          // ListTile(
-          //   leading: Icon(Icons.home),
-          //   title: Text('Home'),
-          //   onTap: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => Home()),
-          //     );
-          //   },
-          // ),
           ListTile(
             leading: const Icon(Icons.ad_units),
             title: const Text('Farmer Details'),
@@ -76,7 +65,8 @@ class AgriOfficerMenu extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const forecasted_prices_n_production()),
+                    builder: (context) =>
+                        const forecasted_prices_n_production()),
               );
             },
           ),

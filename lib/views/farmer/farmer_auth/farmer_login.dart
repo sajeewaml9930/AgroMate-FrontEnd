@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:agromate/configs/url_location.dart';
 import 'package:agromate/views/agriofficer/agri_officer_home.dart';
 import 'package:agromate/views/farmer/farmer_auth/farmer_registration.dart';
+import 'package:agromate/views/farmer/farmer_home.dart';
 import 'package:agromate/views/home.dart';
 import 'package:http/http.dart' as http;
 import 'package:agromate/configs/custom_colors.dart';
@@ -25,49 +26,76 @@ class _FarmerLoginScreenState extends State<FarmerLoginScreen> {
   bool isClicked = false;
 
   Future<void> login() async {
-    final url = Uri.parse('${UrlLocation.Url}/officer_login');
-    final headers = {'Content-Type': 'application/json'};
-    final body = json.encode({
-      'name': _usernameController.text,
-      'password': _passwordController.text,
-    });
+    try {
+      final url = Uri.parse('${UrlLocation.Url}/farmerlogin');
+      final headers = {'Content-Type': 'application/json'};
+      final body = json.encode({
+        'name': _usernameController.text,
+        'password': _passwordController.text,
+      });
 
-    final response = await http.post(url, headers: headers, body: body);
-    final responseData = json.decode(response.body);
+      final response = await http.post(url, headers: headers, body: body);
+      final responseData = json.decode(response.body);
 
-    if (response.statusCode == 201) {
-      setState(() {
-        final decoded = jsonDecode(response.body) as Map<String, dynamic>;
-        final message = decoded['message'] as String;
-        final farmerId = decoded['id'];
+      if (response.statusCode == 201) {
+        setState(() {
+          final decoded = jsonDecode(response.body) as Map<String, dynamic>;
+          final farmerId = decoded['id'];
 
-        print(farmerId);
-        Navigator.push(
+          print(farmerId);
+          Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const AgriOfficerHomeScreen(),
-            ));
-      });
-    } else {
+              builder: (context) => FarmerHomeScreen(
+                farmerId: farmerId,
+              ),
+            ),
+          );
+        });
+      } else if (response.statusCode == 401) {
+        setState(() {
+          showDialog(
+            context: context,
+            builder: (context) => AlertBoxWidget(
+              title: 'Try Again',
+              content: Text.rich(
+                TextSpan(
+                  text: responseData['message'],
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        height: 1.5,
+                      ),
+                ),
+                textAlign: TextAlign.center,
+              ),
+              buttonTitle: 'Okay',
+              onPressed: () => Navigator.pop(context),
+            ),
+          );
+        });
+      } else {
+        // Handle other status codes here
+      }
+    } catch (error) {
+      // Handle connection error
       setState(() {
         showDialog(
-      context: context,
-      builder: (context) => AlertBoxWidget(
-        title: 'Forgot Password?',
-        content: Text.rich(
-          TextSpan(
-            text: responseData['message'],
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  height: 1.5,
-                ),
-            
+          context: context,
+          builder: (context) => AlertBoxWidget(
+            title: 'Connection Error',
+            content: Text.rich(
+              TextSpan(
+                text:
+                    'Failed to connect to the server. Please check your internet connection and try again.',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      height: 1.5,
+                    ),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            buttonTitle: 'Okay',
+            onPressed: () => Navigator.pop(context),
           ),
-          textAlign: TextAlign.center,
-        ),
-        buttonTitle: 'Okay',
-        onPressed: () => Navigator.pop(context),
-      ),
-    );
+        );
       });
     }
   }
@@ -265,12 +293,12 @@ class _FarmerLoginScreenState extends State<FarmerLoginScreen> {
                     ),
                     TextButton(
                       onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const FarmerRegistration()),
-                    );
-                  },
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const FarmerRegistration()),
+                        );
+                      },
                       child: const Text(
                         'Sign Up',
                         style: TextStyle(fontWeight: FontWeight.bold),

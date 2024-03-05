@@ -2,7 +2,6 @@ import 'package:agromate/configs/custom_colors.dart';
 import 'package:agromate/configs/url_location.dart';
 import 'package:agromate/models/officer_model.dart';
 import 'package:agromate/views/agriofficer/agri_officer_auth/agri_office_loging.dart';
-import 'package:agromate/views/home.dart';
 import 'package:agromate/views/widgets/alert_box_widget.dart';
 import 'package:agromate/views/widgets/button_widget.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -94,7 +93,7 @@ class _OfficerRegistrationState extends State<OfficerRegistration> {
             onPressed: () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
+                builder: (context) => const OfficerLoginScreen(),
               ),
             ),
           ),

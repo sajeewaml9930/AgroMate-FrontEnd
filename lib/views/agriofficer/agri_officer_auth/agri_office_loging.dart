@@ -25,7 +25,7 @@ class _OfficerLoginScreenState extends State<OfficerLoginScreen> {
   bool isClicked = false;
 
   Future<void> login() async {
-    final url = Uri.parse('${UrlLocation.Url}/officer_login');
+    final url = Uri.parse('${UrlLocation.Url}/agriofficerlogin');
     final headers = {'Content-Type': 'application/json'};
     final body = json.encode({
       'name': _usernameController.text,
@@ -35,13 +35,10 @@ class _OfficerLoginScreenState extends State<OfficerLoginScreen> {
     final response = await http.post(url, headers: headers, body: body);
     final responseData = json.decode(response.body);
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       setState(() {
         final decoded = jsonDecode(response.body) as Map<String, dynamic>;
         final message = decoded['message'] as String;
-        final farmerId = decoded['id'];
-
-        print(farmerId);
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -51,23 +48,22 @@ class _OfficerLoginScreenState extends State<OfficerLoginScreen> {
     } else {
       setState(() {
         showDialog(
-      context: context,
-      builder: (context) => AlertBoxWidget(
-        title: 'Forgot Password?',
-        content: Text.rich(
-          TextSpan(
-            text: responseData['message'],
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  height: 1.5,
-                ),
-            
+          context: context,
+          builder: (context) => AlertBoxWidget(
+            title: 'Forgot Password?',
+            content: Text.rich(
+              TextSpan(
+                text: responseData['message'],
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      height: 1.5,
+                    ),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            buttonTitle: 'Okay',
+            onPressed: () => Navigator.pop(context),
           ),
-          textAlign: TextAlign.center,
-        ),
-        buttonTitle: 'Okay',
-        onPressed: () => Navigator.pop(context),
-      ),
-    );
+        );
       });
     }
   }
@@ -265,12 +261,13 @@ class _OfficerLoginScreenState extends State<OfficerLoginScreen> {
                     ),
                     TextButton(
                       onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const OfficerRegistration()),
-                    );
-                  },
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const OfficerRegistration()),
+                        );
+                      },
                       child: const Text(
                         'Sign Up',
                         style: TextStyle(fontWeight: FontWeight.bold),

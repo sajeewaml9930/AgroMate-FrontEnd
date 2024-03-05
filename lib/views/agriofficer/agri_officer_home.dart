@@ -1,4 +1,3 @@
-import 'package:agromate/views/agriofficer/agri_officer_auth/agri_office_loging.dart';
 import 'package:agromate/views/agriofficer/farmer_details.dart';
 import 'package:agromate/views/agriofficer/forecasted_prices_production.dart';
 import 'package:agromate/views/home.dart';
@@ -13,6 +12,34 @@ class AgriOfficerHomeScreen extends StatefulWidget {
 }
 
 class _AgriOfficerHomeScreenState extends State<AgriOfficerHomeScreen> {
+  void _showSignOutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Are you sure you want to sign out?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Sign Out'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -46,7 +73,7 @@ class _AgriOfficerHomeScreenState extends State<AgriOfficerHomeScreen> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const OfficerLoginScreen(),
+                          builder: (context) => const FarmerDetails(),
                         ),
                       );
                     },
@@ -65,12 +92,12 @@ class _AgriOfficerHomeScreenState extends State<AgriOfficerHomeScreen> {
                     height: 65,
                     borderRadius: 10,
                     onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => FarmerDetails(),
-                        ),
-                      );
+                      // Navigator.pushReplacement(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => ,
+                      //   ),
+                      // );
                     },
                     child: const Text(
                       'Resellers Details',
@@ -114,15 +141,11 @@ class _AgriOfficerHomeScreenState extends State<AgriOfficerHomeScreen> {
             Icons.logout,
           ),
           onPressed: () {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
-              ),
-            );
+            _showSignOutDialog(context);
           },
         ),
       ),
+      
     );
   }
 
