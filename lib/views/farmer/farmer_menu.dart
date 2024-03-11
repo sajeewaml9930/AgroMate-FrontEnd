@@ -1,10 +1,12 @@
-import 'package:agromate/views/agriofficer/farmer_details.dart';
-import 'package:agromate/views/agriofficer/forecasted_prices_production.dart';
+import 'package:agromate/views/farmer/farmer_add_production.dart';
+import 'package:agromate/views/farmer/farmer_home.dart';
+import 'package:agromate/views/farmer/farmer_production_history.dart';
+import 'package:agromate/views/home.dart';
 import 'package:flutter/material.dart';
 
-
 class FarmerMenu extends StatelessWidget {
-  const FarmerMenu({Key? key}) : super(key: key);
+  final int farmerId;
+  const FarmerMenu({Key? key, required this.farmerId}) : super(key: key);
 
   void _showSignOutDialog(BuildContext context) {
     showDialog(
@@ -23,10 +25,10 @@ class FarmerMenu extends StatelessWidget {
               child: const Text('Sign Out'),
               onPressed: () {
                 // Add sign-out logic here
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => const MyApp()),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
               },
             ),
           ],
@@ -44,39 +46,40 @@ class FarmerMenu extends StatelessWidget {
           const DrawerHeader(
             decoration: BoxDecoration(color: Colors.green),
             child: Text(
-              'Agri Officer Menu',
+              'Menu',
               style: TextStyle(fontSize: 30),
               textAlign: TextAlign.center,
             ),
           ),
-          // ListTile(
-          //   leading: Icon(Icons.home),
-          //   title: Text('Home'),
-          //   onTap: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => Home()),
-          //     );
-          //   },
-          // ),
           ListTile(
-            leading: const Icon(Icons.ad_units),
-            title: const Text('Farmer Details'),
+            leading: const Icon(Icons.home),
+            title: const Text('Home'),
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const FarmerDetails()),
+                MaterialPageRoute(
+                    builder: (context) => FarmerHomeScreen(farmerId: farmerId)),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.ad_units),
+            title: const Text('Add Your Production'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AddProduction(farmerId: farmerId)),
               );
             },
           ),
           ListTile(
             leading: const Icon(Icons.storage),
-            title: const Text('Forecasted Prices n Production'),
+            title: const Text('Your Prduction History'),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const forecasted_prices_n_production()),
+                    builder: (context) => FarmerHistory(farmerId: farmerId)),
               );
             },
           ),

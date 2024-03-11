@@ -2,11 +2,9 @@ import 'package:agromate/configs/custom_colors.dart';
 import 'package:agromate/configs/url_location.dart';
 import 'package:agromate/models/farmer_model.dart';
 import 'package:flutter/material.dart';
-//import 'OfficerMenu.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
-
+import 'package:agromate/views/farmer/farmer_menu.dart';
 
 class FarmerHistory extends StatefulWidget {
   final int farmerId;
@@ -21,22 +19,33 @@ class _FarmerHistoryState extends State<FarmerHistory> {
   List<Production> production = [];
   String status = "";
   String farmerName = "";
-  //String _selectedStatus = 'Seed';
 
   Future<void> _fetchProduction(int farmerID) async {
-    final response = await http.get(Uri.parse(
-        '${UrlLocation.Url}/production/$farmerID')); // replace with your API URL
-    final List<dynamic> data = json.decode(response.body);
-    setState(() {
-      production = data
-          .map((item) => Production(
-                id: item['id'],
-                date: DateTime.parse(item['date']),
-                quantity: item['quantity'],
-              ))
-          .toList();
-    });
+    try {
+      final response =
+          await http.get(Uri.parse('${UrlLocation.Url}/production/$farmerID'));
+      if (response.statusCode == 201) {
+        final jsonResponse = json.decode(response.body);
+        final List<dynamic> data = jsonResponse['result'];
+        final String name = jsonResponse['name'];
+        setState(() {
+          farmerName = name;
+          production = data
+              .map((item) => Production(
+                    id: item['id'],
+                    date: DateTime.parse(item['date']),
+                    quantity: item['quantity'],
+                  ))
+              .toList();
+        });
+      } else {
+        throw Exception('Failed to load production');
+      }
+    } catch (error) {
+      print('Error fetching production: $error');
+    }
   }
+
   Future<void> _fetchStatus(int farmerId) async {
     final response =
         await http.get(Uri.parse('${UrlLocation.Url}/farmer/$farmerId'));
@@ -52,19 +61,24 @@ class _FarmerHistoryState extends State<FarmerHistory> {
       throw Exception('Failed to fetch data');
     }
   }
-  
 
   @override
   void initState() {
     super.initState();
     _fetchProduction(widget.farmerId);
+    _fetchStatus(widget.farmerId); // Fetch status and name
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Farmer Details'),
+        title: const Text(
+          'Your History',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
@@ -75,16 +89,18 @@ class _FarmerHistoryState extends State<FarmerHistory> {
             );
           },
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
+        centerTitle: true,
+        backgroundColor: CustomColors.greenColor,
+        // actions: [
+        //   IconButton(
+        //     icon: const Icon(Icons.arrow_back),
+        //     onPressed: () {
+        //       Navigator.pop(context);
+        //     },
+        //   ),
+        // ],
       ),
-      //drawer: Menu(),
+      drawer: FarmerMenu(farmerId: widget.farmerId),
       body: Container(
         color: CustomColors.hazelColor,
         width: double.infinity,
@@ -92,10 +108,8 @@ class _FarmerHistoryState extends State<FarmerHistory> {
         padding: const EdgeInsets.symmetric(horizontal: 25),
         child: Center(
           child: SingleChildScrollView(
-            // constraints: BoxConstraints.expand(),
             child: Column(
               children: [
-                Container(height: 30.0),
                 Container(height: 30.0),
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
@@ -109,14 +123,20 @@ class _FarmerHistoryState extends State<FarmerHistory> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-                Container(height: 30.0),
+                Text(
+                  "Status: $status", // Display status
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                  ),
+                ),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: DataTable(
                     columns: const [
                       DataColumn(label: Text('ID')),
                       DataColumn(label: Text('Date')),
-                      DataColumn(label: Text('Quntity')),
+                      DataColumn(label: Text('Quantity')),
                     ],
                     rows: production
                         .map((production) => DataRow(cells: [

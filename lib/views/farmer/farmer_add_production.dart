@@ -1,6 +1,7 @@
 import 'package:agromate/configs/custom_colors.dart';
 import 'package:agromate/configs/url_location.dart';
 import 'package:agromate/views/farmer/farmer_menu.dart';
+import 'package:agromate/views/widgets/alert_box_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
@@ -24,19 +25,56 @@ class _AddProductionState extends State<AddProduction> {
   bool isDateSend = false;
 
   Future<void> _postData(int id) async {
-    final url = Uri.parse('${UrlLocation.Url}/farmers/1/productions');
+    final url = Uri.parse('${UrlLocation.Url}/farmers/$id/productions');
     final headers = {'Content-Type': 'application/json'};
     final body = json.encode({
-      'date': dateinput,
-      'quantity': quantity,
+      'date': dateinput.text,
+      'quantity': quantity.text,
     });
 
     final response = await http.post(url, headers: headers, body: body);
+    final responseData = json.decode(response.body);
 
-    if (response.statusCode == 200) {
-      // Success
+    if (response.statusCode == 201) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertBoxWidget(
+          title: 'Success',
+          content: Text.rich(
+            TextSpan(
+              text: responseData['success'],
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    height: 1.5,
+                  ),
+            ),
+            textAlign: TextAlign.center,
+          ),
+          buttonTitle: 'Okay',
+          onPressed: () {
+            Navigator.pop(context);
+            dateinput.clear();
+            quantity.clear();
+          },
+        ),
+      );
     } else {
-      // Error
+      showDialog(
+        context: context,
+        builder: (context) => AlertBoxWidget(
+          title: 'Error',
+          content: Text.rich(
+            TextSpan(
+              text: responseData['error'],
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    height: 1.5,
+                  ),
+            ),
+            textAlign: TextAlign.center,
+          ),
+          buttonTitle: 'Okay',
+          onPressed: () => Navigator.pop(context),
+        ),
+      );
     }
   }
 
@@ -55,7 +93,12 @@ class _AddProductionState extends State<AddProduction> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Production'),
+        title: const Text(
+          'Add Production',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
@@ -66,16 +109,18 @@ class _AddProductionState extends State<AddProduction> {
             );
           },
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
+        centerTitle: true,
+        backgroundColor: CustomColors.greenColor,
+        // actions: [
+        //   IconButton(
+        //     icon: const Icon(Icons.arrow_back),
+        //     onPressed: () {
+        //       Navigator.pop(context);
+        //     },
+        //   ),
+        // ],
       ),
-      drawer: const FarmerMenu(),
+      drawer: FarmerMenu(farmerId: widget.farmerId),
       body: Container(
         color: CustomColors.hazelColor,
         width: double.infinity,
@@ -126,11 +171,12 @@ class _AddProductionState extends State<AddProduction> {
                     readOnly: true,
                     onTap: () async {
                       DateTime? pickedDate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(
-                              2000), //DateTime.now() - not to allow to choose before today.
-                          lastDate: DateTime(2101));
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate:
+                            DateTime(2000), // Restrict to today or before
+                        lastDate: DateTime.now(),
+                      );
 
                       if (pickedDate != null) {
                         print(pickedDate);
@@ -141,9 +187,8 @@ class _AddProductionState extends State<AddProduction> {
                           dateinput.text = formattedDate;
                         });
                         formattedDate = selectedDate;
-                        //sendDate();
                         if (isDateSend) {
-                          //_fetchData();
+                          // Do something if date is sent
                         }
                       } else {
                         print("Date is not selected");

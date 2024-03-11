@@ -55,7 +55,12 @@ class _FarmerDashBoardState extends State<FarmerDashBoard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Farmer DashBoard'),
+        title: const Text(
+          'Farmer DashBoard',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
@@ -66,16 +71,18 @@ class _FarmerDashBoardState extends State<FarmerDashBoard> {
             );
           },
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ],
+        centerTitle: true,
+        backgroundColor: CustomColors.greenColor,
+        // actions: [
+        //   IconButton(
+        //     icon: const Icon(Icons.arrow_back),
+        //     onPressed: () {
+        //       Navigator.pop(context);
+        //     },
+        //   ),
+        // ],
       ),
-      drawer: const FarmerMenu(),
+      drawer: FarmerMenu(farmerId: widget.farmerId),
       body: Container(
         color: CustomColors.hazelColor,
         width: double.infinity,
