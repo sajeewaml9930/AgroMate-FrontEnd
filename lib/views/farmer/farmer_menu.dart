@@ -1,4 +1,5 @@
 import 'package:agromate/views/farmer/farmer_add_production.dart';
+import 'package:agromate/views/farmer/farmer_dashboard.dart';
 import 'package:agromate/views/farmer/farmer_home.dart';
 import 'package:agromate/views/farmer/farmer_production_history.dart';
 import 'package:agromate/views/home.dart';
@@ -55,6 +56,7 @@ class FarmerMenu extends StatelessWidget {
             leading: const Icon(Icons.home),
             title: const Text('Home'),
             onTap: () {
+              Navigator.pop(context);
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -63,9 +65,22 @@ class FarmerMenu extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.ad_units),
-            title: const Text('Add Your Production'),
+            leading: const Icon(Icons.dashboard),
+            title: const Text('My Dashboard'),
             onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => FarmerDashBoard(farmerId: farmerId)),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.add_box),
+            title: const Text('Add My Production'),
+            onTap: () {
+              Navigator.pop(context);
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => AddProduction(farmerId: farmerId)),
@@ -73,9 +88,10 @@ class FarmerMenu extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.storage),
-            title: const Text('Your Prduction History'),
+            leading: const Icon(Icons.history),
+            title: const Text('My Prduction History'),
             onTap: () {
+              Navigator.pop(context);
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -87,6 +103,7 @@ class FarmerMenu extends StatelessWidget {
             leading: const Icon(Icons.logout),
             title: const Text('sign Out'),
             onTap: () {
+              Navigator.pop(context);
               _showSignOutDialog(context);
             },
           ),

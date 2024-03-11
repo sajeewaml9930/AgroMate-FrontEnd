@@ -19,9 +19,6 @@ class _FarmerHomeScreenState extends State<FarmerHomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-
-
-
         appBar: AppBar(
           title: const Text(
             'FARMER HOME',
@@ -33,12 +30,6 @@ class _FarmerHomeScreenState extends State<FarmerHomeScreen> {
           backgroundColor: CustomColors.greenColor,
           automaticallyImplyLeading: false,
         ),
-
-
-
-
-
-        
         body: Container(
           color: CustomColors.hazelColor,
           width: double.infinity,
@@ -57,7 +48,9 @@ class _FarmerHomeScreenState extends State<FarmerHomeScreen> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>  FarmerDashBoard(farmerId: widget.farmerId,),
+                          builder: (context) => FarmerDashBoard(
+                            farmerId: widget.farmerId,
+                          ),
                         ),
                       );
                     },
@@ -79,7 +72,9 @@ class _FarmerHomeScreenState extends State<FarmerHomeScreen> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => FarmerHistory(farmerId: widget.farmerId,),
+                          builder: (context) => FarmerHistory(
+                            farmerId: widget.farmerId,
+                          ),
                         ),
                       );
                     },
@@ -101,7 +96,9 @@ class _FarmerHomeScreenState extends State<FarmerHomeScreen> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>  AddProduction(farmerId: widget.farmerId,),
+                          builder: (context) => AddProduction(
+                            farmerId: widget.farmerId,
+                          ),
                         ),
                       );
                     },
