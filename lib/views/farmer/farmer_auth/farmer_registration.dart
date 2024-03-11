@@ -1,13 +1,9 @@
 import 'package:agromate/configs/custom_colors.dart';
 import 'package:agromate/configs/url_location.dart';
-import 'package:agromate/models/farmer_model.dart';
-import 'package:agromate/models/officer_model.dart';
-import 'package:agromate/views/agriofficer/agri_officer_auth/agri_office_loging.dart';
-import 'package:agromate/views/farmer/farmer_home.dart';
+import 'package:agromate/views/farmer/farmer_auth/farmer_login.dart';
 import 'package:agromate/views/home.dart';
 import 'package:agromate/views/widgets/alert_box_widget.dart';
 import 'package:agromate/views/widgets/button_widget.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -34,16 +30,32 @@ class _FarmerRegistrationState extends State<FarmerRegistration> {
     );
   }
 
-Future<void> _registerFarmer() async {
-    final url = Uri.parse('http://127.0.0.1:5000/register_farmer');
-    
+  Future<void> _registerFarmer(
+    TextEditingController nameController,
+    TextEditingController areaController,
+    TextEditingController phNumberController,
+    TextEditingController passwordController,
+  ) async {
+    final String name = nameController.text;
+    final String area = areaController.text;
+    final String phNumber = phNumberController.text;
+    final String password = passwordController.text;
+
+    // Ensure all fields are filled
+    if (name.isEmpty || area.isEmpty || phNumber.isEmpty || password.isEmpty) {
+      _showErrorDialog("Please fill in all fields.");
+      return;
+    }
+
+    final url = Uri.parse(UrlLocation.fr);
+
     // Replace these fields with the actual data you want to send
     final Map<String, String> data = {
-      'name': 'John Doe',
-      'area': 'Farmville',
-      'ph_number': '1234567890',
+      'name': name,
+      'area': area,
+      'ph_number': phNumber,
       'status': 'Active',
-      'password': 'password123',
+      'password': password,
     };
 
     try {
@@ -51,22 +63,90 @@ Future<void> _registerFarmer() async {
         url,
         body: data,
       );
+      final responseData = json.decode(response.body);
 
       if (response.statusCode == 200) {
-        // Registration successful
+        showDialog(
+          context: context,
+          builder: (context) => AlertBoxWidget(
+            title: 'Success...',
+            content: Text.rich(
+              TextSpan(
+                text: responseData['message'],
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      height: 1.5,
+                    ),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            buttonTitle: 'Okay',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const FarmerLoginScreen()),
+            ),
+          ),
+        );
         print('Registered successfully');
       } else if (response.statusCode == 409) {
-        // Name already exists
-        print('Name already exists');
+        showDialog(
+          context: context,
+          builder: (context) => AlertBoxWidget(
+            title: 'Try Again',
+            content: Text.rich(
+              TextSpan(
+                text: responseData['message'],
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      height: 1.5,
+                    ),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            buttonTitle: 'Okay',
+            onPressed: () => Navigator.pop(context),
+          ),
+        );
       } else {
-        // Handle other status codes or errors
+        showDialog(
+          context: context,
+          builder: (context) => AlertBoxWidget(
+            title: 'Try Again',
+            content: Text.rich(
+              TextSpan(
+                text: responseData['message'],
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      height: 1.5,
+                    ),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            buttonTitle: 'Okay',
+            onPressed: () => Navigator.pop(context),
+          ),
+        );
         print('Failed to register');
       }
     } catch (error) {
-      // Handle network errors
-      print('Network error: $error');
+      showDialog(
+        context: context,
+        builder: (context) => AlertBoxWidget(
+          title: 'Try Again',
+          content: Text.rich(
+            TextSpan(
+              text: 'Server Error',
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    height: 1.5,
+                  ),
+            ),
+            textAlign: TextAlign.center,
+          ),
+          buttonTitle: 'Okay',
+          onPressed: () => Navigator.pop(context),
+        ),
+      );
     }
   }
+
   @override
   void dispose() {
     //_fetchData();
@@ -162,20 +242,20 @@ Future<void> _registerFarmer() async {
                       ),
                     ),
                   ),
-                  // Container(height: 16.0),
-                  // TextField(
-                  //   controller: _areaController,
-                  //   decoration: const InputDecoration(
-                  //     labelText: 'Field Area Size',
-                  //     border: OutlineInputBorder(),
-                  //     focusedBorder: OutlineInputBorder(
-                  //       borderSide: BorderSide(color: Colors.black),
-                  //     ),
-                  //     labelStyle: TextStyle(
-                  //       color: Colors.black,
-                  //     ),
-                  //   ),
-                  // ),
+                  Container(height: 16.0),
+                  TextField(
+                    controller: _areaController,
+                    decoration: const InputDecoration(
+                      labelText: 'Field Area Size',
+                      border: OutlineInputBorder(),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      labelStyle: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
                   Container(height: 16.0),
                   TextField(
                     controller: _phnumberController,
@@ -196,14 +276,8 @@ Future<void> _registerFarmer() async {
                     height: 45,
                     borderRadius: 10,
                     onPressed: () {
-                      _registerFarmer();
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) => FarmerHomeScreen(
-                      //             farmerId: 1,
-                      //           )),
-                      // );
+                      _registerFarmer(_usernameController, _areaController,
+                          _phnumberController, _passwordController);
                     },
                     child: const Text(
                       'Add Me',

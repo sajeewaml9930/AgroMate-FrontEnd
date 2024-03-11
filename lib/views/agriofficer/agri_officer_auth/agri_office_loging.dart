@@ -24,36 +24,61 @@ class _OfficerLoginScreenState extends State<OfficerLoginScreen> {
   final _passwordController = TextEditingController();
   bool isClicked = false;
 
-  Future<void> login() async {
-    final url = Uri.parse('${UrlLocation.Url}/agriofficerlogin');
-    final headers = {'Content-Type': 'application/json'};
-    final body = json.encode({
-      'name': _usernameController.text,
-      'password': _passwordController.text,
-    });
+  Future<void> login(String name, String password) async {
+    try {
+      final url = Uri.parse(UrlLocation.al);
+      final headers = {'Content-Type': 'application/json'};
+      final body = json.encode({
+        'name': name,
+        'password': password,
+      });
 
-    final response = await http.post(url, headers: headers, body: body);
-    final responseData = json.decode(response.body);
+      final response = await http.post(url, headers: headers, body: body);
+      final responseData = json.decode(response.body);
 
-    if (response.statusCode == 200) {
-      setState(() {
-        final decoded = jsonDecode(response.body) as Map<String, dynamic>;
-        final message = decoded['message'] as String;
-        Navigator.push(
+      if (response.statusCode == 201) {
+        setState(() {
+          final decoded = jsonDecode(response.body) as Map<String, dynamic>;
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => const AgriOfficerHomeScreen(),
-            ));
-      });
-    } else {
+            ),
+          );
+        });
+      } else if (response.statusCode == 401) {
+        setState(() {
+          showDialog(
+            context: context,
+            builder: (context) => AlertBoxWidget(
+              title: 'Try Again',
+              content: Text.rich(
+                TextSpan(
+                  text: responseData['message'],
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        height: 1.5,
+                      ),
+                ),
+                textAlign: TextAlign.center,
+              ),
+              buttonTitle: 'Okay',
+              onPressed: () => Navigator.pop(context),
+            ),
+          );
+        });
+      } else {
+        // Handle other status codes here
+      }
+    } catch (error) {
+      // Handle connection error
       setState(() {
         showDialog(
           context: context,
           builder: (context) => AlertBoxWidget(
-            title: 'Forgot Password?',
+            title: 'Connection Error',
             content: Text.rich(
               TextSpan(
-                text: responseData['message'],
+                text: 'Failed to connect to the server.',
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       height: 1.5,
                     ),
@@ -229,17 +254,10 @@ class _OfficerLoginScreenState extends State<OfficerLoginScreen> {
                   width: double.infinity,
                   height: 45,
                   borderRadius: 10,
-                  onPressed: () async {
-                    // Internet connection check
-                    final connectivityResult =
-                        await (Connectivity().checkConnectivity());
-
-                    // Check if the network connectivi
-                    if (connectivityResult == ConnectivityResult.none) {
-                      _showErrorDialog('No Network Connection. Try Again!');
-                    } else {
-                      login();
-                    }
+                  onPressed: () {
+                    String name = _usernameController.text;
+                    String password = _passwordController.text;
+                    login(name, password);
                   },
                   child: const Text(
                     'Log In',

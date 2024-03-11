@@ -1,10 +1,13 @@
-import 'package:agromate/views/agriofficer/agri_officer_auth/agri_office_loging.dart';
+import 'package:agromate/views/Reseller/Reseller_auth/Reseller_login.dart';
 import 'package:agromate/views/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:agromate/configs/custom_colors.dart';
 
 class ResellerHomeScreen extends StatefulWidget {
-  const ResellerHomeScreen({super.key});
+  final int ResellerId;
+  const ResellerHomeScreen({super.key, 
+  required this.ResellerId
+  });
 
   @override
   State<ResellerHomeScreen> createState() => _ResellerHomeScreenState();
@@ -13,13 +16,11 @@ class ResellerHomeScreen extends StatefulWidget {
 class _ResellerHomeScreenState extends State<ResellerHomeScreen> {
   @override
   Widget build(BuildContext context) {
-    // int userLevel =
-    //     Provider.of<AuthModel>(context, listen: false).user?.userLevel ?? 0;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Home',
+            'Reseller HOME',
             style: TextStyle(
               color: Colors.white,
             ),
@@ -28,7 +29,6 @@ class _ResellerHomeScreenState extends State<ResellerHomeScreen> {
           backgroundColor: CustomColors.greenColor,
           automaticallyImplyLeading: false,
         ),
-
         body: Container(
           color: CustomColors.hazelColor,
           width: double.infinity,
@@ -44,38 +44,15 @@ class _ResellerHomeScreenState extends State<ResellerHomeScreen> {
                     height: 65,
                     borderRadius: 10,
                     onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const OfficerLoginScreen(),
-                        ),
-                      );
-                    },
-                    child: const Text(
-                      'Officer',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 40),
-                  ButtonWidget(
-                    width: 300,
-                    height: 65,
-                    borderRadius: 10,
-                    onPressed: () {
-                      // Provider.of<LogsModel>(context, listen: false).qrCode = '';
                       // Navigator.pushReplacement(
                       //   context,
                       //   MaterialPageRoute(
-                      //     builder: (context) => const ResellerLoging(),
+                      //     builder: (context) =>  ResellerDashBoard(ResellerId: widget.ResellerId,),
                       //   ),
                       // );
                     },
                     child: const Text(
-                      'Reseller',
+                      'My Dashboard',
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.white,
@@ -92,12 +69,34 @@ class _ResellerHomeScreenState extends State<ResellerHomeScreen> {
                       // Navigator.pushReplacement(
                       //   context,
                       //   MaterialPageRoute(
-                      //     builder: (context) => const ResellerLoging(),
+                      //     builder: (context) => ResellerHistory(ResellerId: widget.ResellerId,),
                       //   ),
                       // );
                     },
                     child: const Text(
-                      'Resaller',
+                      'My Production Details',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  ButtonWidget(
+                    width: 300,
+                    height: 65,
+                    borderRadius: 10,
+                    onPressed: () {
+                      // Navigator.pushReplacement(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) =>  AddProduction(ResellerId: widget.ResellerId,),
+                      //   ),
+                      // );
+                    },
+                    child: const Text(
+                      'Add My Production',
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.white,
@@ -110,24 +109,31 @@ class _ResellerHomeScreenState extends State<ResellerHomeScreen> {
             ),
           ),
         ),
-        // floatingActionButton: _floatingActionButton(
-        //   icon: const Icon(
-        //     Icons.logout,
-        //   ),
-        //   onPressed: () {},
-        // ),
+        floatingActionButton: _floatingActionButton(
+          icon: const Icon(
+            Icons.logout,
+          ),
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ResellerLoginScreen(),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
 
-  // FloatingActionButton _floatingActionButton(
-  //     {required Icon icon, required VoidCallback? onPressed}) {
-  //   return FloatingActionButton(
-  //     isExtended: true,
-  //     backgroundColor: CustomColors.brownColor,
-  //     foregroundColor: Colors.white,
-  //     onPressed: onPressed,
-  //     child: icon,
-  //   );
-  // }
+  FloatingActionButton _floatingActionButton(
+      {required Icon icon, required VoidCallback? onPressed}) {
+    return FloatingActionButton(
+      isExtended: true,
+      backgroundColor: CustomColors.brownColor,
+      foregroundColor: Colors.white,
+      onPressed: onPressed,
+      child: icon,
+    );
+  }
 }

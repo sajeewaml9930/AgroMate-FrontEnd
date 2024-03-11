@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:agromate/configs/url_location.dart';
-import 'package:agromate/views/agriofficer/agri_officer_home.dart';
 import 'package:agromate/views/farmer/farmer_auth/farmer_registration.dart';
 import 'package:agromate/views/farmer/farmer_home.dart';
 import 'package:agromate/views/home.dart';
@@ -27,7 +26,7 @@ class _FarmerLoginScreenState extends State<FarmerLoginScreen> {
 
   Future<void> login() async {
     try {
-      final url = Uri.parse('${UrlLocation.Url}/farmerlogin');
+      final url = Uri.parse(UrlLocation.fl);
       final headers = {'Content-Type': 'application/json'};
       final body = json.encode({
         'name': _usernameController.text,

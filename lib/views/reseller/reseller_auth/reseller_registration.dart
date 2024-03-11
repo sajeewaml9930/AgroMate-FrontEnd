@@ -1,11 +1,8 @@
 import 'package:agromate/configs/custom_colors.dart';
 import 'package:agromate/configs/url_location.dart';
-import 'package:agromate/models/officer_model.dart';
-import 'package:agromate/views/agriofficer/agri_officer_auth/agri_office_loging.dart';
-import 'package:agromate/views/home.dart';
+import 'package:agromate/views/reseller/reseller_auth/reseller_login.dart';
 import 'package:agromate/views/widgets/alert_box_widget.dart';
 import 'package:agromate/views/widgets/button_widget.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -32,27 +29,118 @@ class _ResellerRegistrationState extends State<ResellerRegistration> {
     );
   }
 
-  Future<void> postOfficerData(Officer userData) async {
-    final url = Uri.parse('${UrlLocation.Url}/register_Officer'); // Replace with your API endpoint URL
-    final headers = <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
+  Future<void> _registerReseller(
+    TextEditingController nameController,
+    TextEditingController phNumberController,
+    TextEditingController passwordController,
+    TextEditingController economic_centreController,
+  ) async {
+    final String name = nameController.text;
+    final String phNumber = phNumberController.text;
+    final String password = passwordController.text;
+    final String economic_centre = economic_centreController.text;
+
+    // Ensure all fields are filled
+    if (name.isEmpty || phNumber.isEmpty || password.isEmpty) {
+      _showErrorDialog("Please fill in all fields.");
+      return;
+    }
+
+    final url = Uri.parse(UrlLocation.rr);
+
+    // Convert data to JSON format
+    final Map<String, String> data = {
+      'name': name,
+      'ph_number': phNumber,
+      'password': password,
+      'economic_centre': economic_centre,
     };
-    final body = jsonEncode(userData.toJson());
 
     try {
       final response = await http.post(
         url,
-        headers: headers,
-        body: body,
+        body: data,
       );
+      final responseData = json.decode(response.body);
 
-      if (response.statusCode == 200) {
-        print('Data posted successfully');
+      if (response.statusCode == 201) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertBoxWidget(
+            title: 'Success...',
+            content: Text.rich(
+              TextSpan(
+                text: responseData['message'],
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      height: 1.5,
+                    ),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            buttonTitle: 'Okay',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const ResellerLoginScreen()),
+            ),
+          ),
+        );
+        print('Registered successfully');
+      } else if (response.statusCode == 401) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertBoxWidget(
+            title: 'Try Again',
+            content: Text.rich(
+              TextSpan(
+                text: responseData['message'],
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      height: 1.5,
+                    ),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            buttonTitle: 'Okay',
+            onPressed: () => Navigator.pop(context),
+          ),
+        );
       } else {
-        print('Failed to post data. Status code: ${response.statusCode}');
+        showDialog(
+          context: context,
+          builder: (context) => AlertBoxWidget(
+            title: 'Try Again',
+            content: Text.rich(
+              TextSpan(
+                text: responseData['message'],
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      height: 1.5,
+                    ),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            buttonTitle: 'Okay',
+            onPressed: () => Navigator.pop(context),
+          ),
+        );
       }
-    } catch (e) {
-      print('Error posting data: $e');
+    } catch (error) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertBoxWidget(
+          title: 'Try Again',
+          content: Text.rich(
+            TextSpan(
+              text: 'Server Error',
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    height: 1.5,
+                  ),
+            ),
+            textAlign: TextAlign.center,
+          ),
+          buttonTitle: 'Okay',
+          onPressed: () => Navigator.pop(context),
+        ),
+      );
     }
   }
 
@@ -66,15 +154,15 @@ class _ResellerRegistrationState extends State<ResellerRegistration> {
   @override
   void initState() {
     //_fetchData();
-    //final userData = OfficerDTO(name: 'Dinil',password: "12312" ,area: '106', phNumber: '121313');
-    //postOfficerData(userData);
+    //final userData = ResellerDTO(name: 'Dinil',password: "12312" ,area: '106', phNumber: '121313');
+    //postResellerData(userData);
     super.initState();
   }
 
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-  // final _areaController = TextEditingController();
   final _phnumberController = TextEditingController();
+  final _economic_centreController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +181,7 @@ class _ResellerRegistrationState extends State<ResellerRegistration> {
             onPressed: () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomeScreen(),
+                builder: (context) => const ResellerLoginScreen(),
               ),
             ),
           ),
@@ -165,35 +253,28 @@ class _ResellerRegistrationState extends State<ResellerRegistration> {
                       ),
                     ),
                   ),
+                  Container(height: 16.0),
+                  TextField(
+                    controller: _economic_centreController,
+                    decoration: const InputDecoration(
+                      labelText: 'Economic Centre',
+                      border: OutlineInputBorder(),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.black),
+                      ),
+                      labelStyle: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
                   Container(height: 50.0),
                   ButtonWidget(
                     width: double.infinity,
                     height: 45,
                     borderRadius: 10,
                     onPressed: () async {
-                      // Internet connection check
-                      final connectivityResult =
-                          await (Connectivity().checkConnectivity());
-
-                      // Check if the network connectivi
-                      if (connectivityResult == ConnectivityResult.none) {
-                        _showErrorDialog('No Network Connection. Try Again!');
-                      } else {
-                        String username = _usernameController.text;
-                        String password = _usernameController.text;
-                        String ph_number = _usernameController.text;
-                        final userData = Officer(
-                          name: username,
-                          password: password,
-                          phNumber: ph_number,
-                        );
-                        postOfficerData(userData);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const OfficerLoginScreen()),
-                        );
-                      }
+                      _registerReseller(_usernameController,
+                          _phnumberController, _passwordController, _economic_centreController);
                     },
                     child: const Text(
                       'Add Me',

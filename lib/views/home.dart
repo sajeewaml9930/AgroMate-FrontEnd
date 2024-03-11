@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const resellerLoginScreen(),
+                          builder: (context) => const ResellerLoginScreen(),
                         ),
                       );
                     },
