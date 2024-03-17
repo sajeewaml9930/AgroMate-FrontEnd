@@ -1,6 +1,6 @@
 import 'package:agromate/configs/custom_colors.dart';
 import 'package:agromate/configs/url_location.dart';
-import 'package:agromate/views/farmer/farmer_menu.dart';
+import 'package:agromate/views/reseller/reseller_menu.dart';
 import 'package:agromate/views/widgets/alert_box_widget.dart';
 import 'package:agromate/views/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
@@ -8,30 +8,34 @@ import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class AddProduction extends StatefulWidget {
-  final int farmerId;
+class ResellerAddProduction extends StatefulWidget {
+  final int ResellerId;
 
-  AddProduction({required this.farmerId});
+  const ResellerAddProduction({super.key, required this.ResellerId});
 
   @override
-  _AddProductionState createState() => _AddProductionState();
+  // ignore: library_private_types_in_public_api
+  _ResellerAddProductionState createState() => _ResellerAddProductionState();
 }
 
-class _AddProductionState extends State<AddProduction> {
+class _ResellerAddProductionState extends State<ResellerAddProduction> {
   final dateinput = TextEditingController();
   final quantity = TextEditingController();
+  final price = TextEditingController();
 
   String selectedDate = "";
 
   bool isDateSend = false;
   bool isenterquantity = false;
+  bool isenterprice = false;
 
   Future<void> _postData(int id) async {
-    final url = Uri.parse('${UrlLocation.Url}/farmers/$id/productions');
+    final url = Uri.parse('${UrlLocation.Url}/reseller/$id/resellDetail');
     final headers = {'Content-Type': 'application/json'};
     final body = json.encode({
       'date': dateinput.text,
       'quantity': quantity.text,
+      'price': price.text,
     });
 
     final response = await http.post(url, headers: headers, body: body);
@@ -56,6 +60,10 @@ class _AddProductionState extends State<AddProduction> {
             Navigator.pop(context);
             dateinput.clear();
             quantity.clear();
+            price.clear();
+            isDateSend = false;
+            isenterquantity = false;
+            isenterprice = false;
           },
         ),
       );
@@ -63,7 +71,7 @@ class _AddProductionState extends State<AddProduction> {
       showDialog(
         context: context,
         builder: (context) => AlertBoxWidget(
-          title: 'Error',
+          title: 'Alert !',
           content: Text.rich(
             TextSpan(
               text: responseData['error'],
@@ -96,7 +104,7 @@ class _AddProductionState extends State<AddProduction> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Add Production',
+          'Add Resell Details',
           style: TextStyle(
             color: Colors.white,
           ),
@@ -122,7 +130,9 @@ class _AddProductionState extends State<AddProduction> {
         //   ),
         // ],
       ),
-      drawer: FarmerMenu(farmerId: widget.farmerId),
+      drawer: ResellerMenu(
+        ResellerId: widget.ResellerId,
+      ),
       body: Container(
         color: CustomColors.hazelColor,
         width: double.infinity,
@@ -137,7 +147,7 @@ class _AddProductionState extends State<AddProduction> {
                 const SizedBox(
                   width: double.infinity,
                   child: Text(
-                    'Enter Your Production',
+                    'Add Resell Details',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -153,7 +163,7 @@ class _AddProductionState extends State<AddProduction> {
                   child: Padding(
                     padding: EdgeInsets.only(left: 20),
                     child: Text(
-                      'Harvested Date',
+                      'Date',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -214,7 +224,7 @@ class _AddProductionState extends State<AddProduction> {
                           });
                         },
                         decoration: const InputDecoration(
-                          labelText: 'Harvest Quantity in Kilo',
+                          labelText: 'Reseller Quantity in Kilo',
                           border: OutlineInputBorder(),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.black),
@@ -230,12 +240,38 @@ class _AddProductionState extends State<AddProduction> {
                 Container(height: 50.0),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  // child: ElevatedButton(
-                  //   onPressed: () {
-
-                  //   },
-                  //   child: const Text('Enter'),
-                  // ),
+                  child: GestureDetector(
+                    onTap: isenterquantity
+                        ? () {}
+                        : () => _showErrorDialog(
+                            context, "Please enter the price."),
+                    child: AbsorbPointer(
+                      absorbing: !isenterquantity,
+                      child: TextField(
+                        controller: price,
+                        onChanged: (value) {
+                          // Check if the text field is filled
+                          setState(() {
+                            isenterprice = value.isNotEmpty;
+                          });
+                        },
+                        decoration: const InputDecoration(
+                          labelText: 'Resell Price in Rs.',
+                          border: OutlineInputBorder(),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.black),
+                          ),
+                          labelStyle: TextStyle(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(height: 50.0),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: ButtonWidget(
                     width: 300,
                     height: 65,
@@ -243,11 +279,15 @@ class _AddProductionState extends State<AddProduction> {
                     onPressed: () {
                       if (isDateSend) {
                         if (isenterquantity) {
-                          _postData(widget.farmerId);
-                          print(dateinput.text);
+                          if (isenterprice) {
+                            _postData(widget.ResellerId);
+                          } else {
+                            _showErrorDialog(
+                                context, "Please enter the Price.");
+                          }
                         } else {
                           _showErrorDialog(context,
-                              "Please enter the harvest Quantity in Kilo");
+                              "Please enter the harvest Quantity in Kilo.");
                         }
                       } else {
                         _showErrorDialog(context, "Please enter the date.");

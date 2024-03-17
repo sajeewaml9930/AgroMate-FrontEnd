@@ -11,3 +11,17 @@ class reseller {
     required this.cropType,
   });
 }
+
+class ResellerDetails {
+  final int id;
+  final DateTime date;
+  final double quantity;
+  final double price;
+
+  ResellerDetails({
+    required this.id,
+    required this.date,
+    required this.quantity,
+    required this.price,
+  });
+}

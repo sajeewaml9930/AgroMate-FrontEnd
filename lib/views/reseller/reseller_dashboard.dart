@@ -1,73 +1,75 @@
-import 'package:agromate/views/farmer/farmer_home.dart';
+import 'package:agromate/views/Reseller/Reseller_home.dart';
+import 'package:agromate/views/reseller/reseller_add_reselldetails.dart';
+import 'package:agromate/views/reseller/reseller_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:agromate/configs/custom_colors.dart';
 import 'package:agromate/configs/url_location.dart';
-import 'package:agromate/views/farmer/farmer_add_production.dart';
-import 'package:agromate/views/farmer/farmer_menu.dart';
 import 'package:agromate/views/widgets/button_widget.dart';
 
-class FarmerDashBoard extends StatefulWidget {
-  final int farmerId;
+class ResellerDashBoard extends StatefulWidget {
+  final int ResellerId;
 
-  FarmerDashBoard({required this.farmerId});
+  ResellerDashBoard({required this.ResellerId});
 
   @override
-  _FarmerDashBoardState createState() => _FarmerDashBoardState();
+  _ResellerDashBoardState createState() => _ResellerDashBoardState();
 }
 
-class _FarmerDashBoardState extends State<FarmerDashBoard> {
+class _ResellerDashBoardState extends State<ResellerDashBoard> {
   final dateinput = TextEditingController();
-  String status = "";
-  String farmerName = "";
+  String Price = "";
+  String ResellerName = "";
   String quantity = "";
+  String price = "";
 
-  Future<void> _fetchStatus(int farmerId) async {
+  Future<void> _fetchPrice(int ResellerId) async {
     final response =
-        await http.get(Uri.parse('${UrlLocation.Url}/farmer/$farmerId'));
+        await http.get(Uri.parse('${UrlLocation.Url}/Reseller/$ResellerId'));
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       String name = jsonResponse['name'];
-      String status = jsonResponse['status'];
+      String Price = jsonResponse['Price'];
       setState(() {
-        this.status = status;
-        this.farmerName = name;
+        this.Price = Price;
+        this.ResellerName = name;
       });
     } else {
       throw Exception('Failed to fetch data');
     }
   }
 
-  Future<void> _fetchweight(int farmerId) async {
-  final response = await http
-      .get(Uri.parse('http://localhost:5000/o2fProduction/$farmerId'));
-  if (response.statusCode == 201) {
-    final jsonResponse = json.decode(response.body);
-    // Ensure 'quantity' is converted to a string
-    String quantity = jsonResponse['quantity'].toString();
-    setState(() {
-      this.quantity = quantity;
-    });
-  } else {
-    throw Exception('Failed to fetch data');
+  Future<void> _fetchweight(int ResellerId) async {
+    final response = await http
+        .get(Uri.parse('http://localhost:5000/o2r/$ResellerId'));
+    if (response.statusCode == 201) {
+      final jsonResponse = json.decode(response.body);
+      // Ensure 'quantity' is converted to a string
+      String quantity = jsonResponse['quantity'].toString();
+      String price = jsonResponse['price'].toString();
+      setState(() {
+        this.quantity = quantity;
+        this.price = price;
+      });
+    } else {
+      throw Exception('Failed to fetch data');
+    }
   }
-}
-
 
   @override
   void dispose() {
-    _fetchStatus(widget.farmerId);
-    _fetchweight(widget.farmerId);
+    _fetchPrice(widget.ResellerId);
+    _fetchweight(widget.ResellerId);
     dateinput.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
-    // print(widget.farmerId);
-    _fetchStatus(widget.farmerId);
-    _fetchweight(widget.farmerId);
+    // print(widget.ResellerId);
+    _fetchPrice(widget.ResellerId);
+    _fetchweight(widget.ResellerId);
     super.initState();
   }
 
@@ -78,8 +80,8 @@ class _FarmerDashBoardState extends State<FarmerDashBoard> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => FarmerHomeScreen(
-              farmerId: widget.farmerId,
+            builder: (context) => ResellerHomeScreen(
+              ResellerId: widget.ResellerId,
             ),
           ),
         );
@@ -88,7 +90,7 @@ class _FarmerDashBoardState extends State<FarmerDashBoard> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Farmer DashBoard',
+            'Reseller DashBoard',
             style: TextStyle(
               color: Colors.white,
             ),
@@ -114,7 +116,7 @@ class _FarmerDashBoardState extends State<FarmerDashBoard> {
           //   ),
           // ],
         ),
-        drawer: FarmerMenu(farmerId: widget.farmerId),
+        drawer: ResellerMenu(ResellerId: widget.ResellerId),
         body: Container(
           color: CustomColors.hazelColor,
           width: double.infinity,
@@ -129,7 +131,7 @@ class _FarmerDashBoardState extends State<FarmerDashBoard> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        'You should : ',
+                        'Your Target Price : ',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -151,7 +153,7 @@ class _FarmerDashBoardState extends State<FarmerDashBoard> {
                           ),
                           padding: const EdgeInsets.all(10.0),
                           child: Text(
-                            status,
+                            "Rs. $price",
                             style: const TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
@@ -168,7 +170,7 @@ class _FarmerDashBoardState extends State<FarmerDashBoard> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        'Your Target Production : ',
+                        'Your Target weight : ',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -211,14 +213,14 @@ class _FarmerDashBoardState extends State<FarmerDashBoard> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => AddProduction(
-                            farmerId: widget.farmerId,
+                          builder: (context) => ResellerAddProduction(
+                            ResellerId: widget.ResellerId,
                           ),
                         ),
                       );
                     },
                     child: const Text(
-                      'Add My Production',
+                      'Add My Resell Details',
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.white,

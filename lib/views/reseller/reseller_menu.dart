@@ -1,11 +1,16 @@
-import 'package:agromate/views/agriofficer/farmer_details.dart';
-import 'package:agromate/views/agriofficer/forecasted_prices_production.dart';
+import 'package:agromate/views/home.dart';
+import 'package:agromate/views/reseller/reseller_add_reselldetails.dart';
+import 'package:agromate/views/reseller/reseller_dashboard.dart';
+import 'package:agromate/views/reseller/reseller_home.dart';
+import 'package:agromate/views/reseller/reseller_reselldetails_history.dart';
 import 'package:flutter/material.dart';
 
-
-class FarmerMenu extends StatelessWidget {
-  const FarmerMenu({Key? key}) : super(key: key);
-
+class ResellerMenu extends StatelessWidget {
+  final int ResellerId;
+  const ResellerMenu({
+    Key? key,
+    required this.ResellerId,
+  }) : super(key: key);
   void _showSignOutDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -22,11 +27,10 @@ class FarmerMenu extends StatelessWidget {
             TextButton(
               child: const Text('Sign Out'),
               onPressed: () {
-                // Add sign-out logic here
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => const MyApp()),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomeScreen()),
+                );
               },
             ),
           ],
@@ -44,39 +48,61 @@ class FarmerMenu extends StatelessWidget {
           const DrawerHeader(
             decoration: BoxDecoration(color: Colors.green),
             child: Text(
-              'Agri Officer Menu',
+              'Menu',
               style: TextStyle(fontSize: 30),
               textAlign: TextAlign.center,
             ),
           ),
-          // ListTile(
-          //   leading: Icon(Icons.home),
-          //   title: Text('Home'),
-          //   onTap: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => Home()),
-          //     );
-          //   },
-          // ),
           ListTile(
-            leading: const Icon(Icons.ad_units),
-            title: const Text('Farmer Details'),
+            leading: const Icon(Icons.home),
+            title: const Text('Home'),
             onTap: () {
+              Navigator.pop(context);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => FarmerDetails()),
+                MaterialPageRoute(
+                    builder: (context) =>
+                        ResellerHomeScreen(ResellerId: ResellerId)),
               );
             },
           ),
           ListTile(
-            leading: const Icon(Icons.storage),
-            title: const Text('Forecasted Prices n Production'),
+            leading: const Icon(Icons.dashboard),
+            title: const Text('My Dashboard'),
             onTap: () {
+              Navigator.pop(context);
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const forecasted_prices_n_production()),
+                    builder: (context) =>
+                        ResellerDashBoard(ResellerId: ResellerId)),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.add_box),
+            title: const Text('Add My Resell Details'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ResellerAddProduction(
+                          ResellerId: ResellerId,
+                        )),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.history),
+            title: const Text('My Resell History'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        ResellerHistory(ResellerId: ResellerId)),
               );
             },
           ),
@@ -84,6 +110,7 @@ class FarmerMenu extends StatelessWidget {
             leading: const Icon(Icons.logout),
             title: const Text('sign Out'),
             onTap: () {
+              Navigator.pop(context);
               _showSignOutDialog(context);
             },
           ),

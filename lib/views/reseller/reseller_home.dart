@@ -1,4 +1,7 @@
 import 'package:agromate/views/Reseller/Reseller_auth/Reseller_login.dart';
+import 'package:agromate/views/reseller/reseller_add_reselldetails.dart';
+import 'package:agromate/views/reseller/reseller_dashboard.dart';
+import 'package:agromate/views/reseller/reseller_reselldetails_history.dart';
 import 'package:agromate/views/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:agromate/configs/custom_colors.dart';
@@ -44,12 +47,12 @@ class _ResellerHomeScreenState extends State<ResellerHomeScreen> {
                     height: 65,
                     borderRadius: 10,
                     onPressed: () {
-                      // Navigator.pushReplacement(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) =>  ResellerDashBoard(ResellerId: widget.ResellerId,),
-                      //   ),
-                      // );
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>  ResellerDashBoard(ResellerId: widget.ResellerId,),
+                        ),
+                      );
                     },
                     child: const Text(
                       'My Dashboard',
@@ -66,15 +69,15 @@ class _ResellerHomeScreenState extends State<ResellerHomeScreen> {
                     height: 65,
                     borderRadius: 10,
                     onPressed: () {
-                      // Navigator.pushReplacement(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => ResellerHistory(ResellerId: widget.ResellerId,),
-                      //   ),
-                      // );
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ResellerHistory(ResellerId: widget.ResellerId,),
+                        ),
+                      );
                     },
                     child: const Text(
-                      'My Production Details',
+                      'My Resell History',
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.white,
@@ -88,15 +91,15 @@ class _ResellerHomeScreenState extends State<ResellerHomeScreen> {
                     height: 65,
                     borderRadius: 10,
                     onPressed: () {
-                      // Navigator.pushReplacement(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) =>  AddProduction(ResellerId: widget.ResellerId,),
-                      //   ),
-                      // );
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>  ResellerAddProduction(ResellerId: widget.ResellerId,),
+                        ),
+                      );
                     },
                     child: const Text(
-                      'Add My Production',
+                      'Add My Resell Details',
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.white,
