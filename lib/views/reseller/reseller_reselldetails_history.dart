@@ -33,7 +33,7 @@ class _ResellerHistoryState extends State<ResellerHistory> {
           production = data
               .map((item) => ResellerDetails(
                     id: item['id'],
-                    date: DateTime.parse('2024-03-17'),
+                    date: DateTime.parse(item['date']),
                     quantity: item['quantity'],
                     price: double.parse(item['price']), // Parse 'price' to int
                   ))

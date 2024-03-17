@@ -1,5 +1,6 @@
 import 'package:agromate/views/agriofficer/farmer_details.dart';
 import 'package:agromate/views/agriofficer/forecasted_prices_production.dart';
+import 'package:agromate/views/agriofficer/reseller_details.dart';
 import 'package:agromate/views/home.dart';
 import 'package:agromate/views/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +74,7 @@ class _AgriOfficerHomeScreenState extends State<AgriOfficerHomeScreen> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const FarmerDetails(),
+                          builder: (context) => const FarmerHistory(),
                         ),
                       );
                     },
@@ -92,12 +93,12 @@ class _AgriOfficerHomeScreenState extends State<AgriOfficerHomeScreen> {
                     height: 65,
                     borderRadius: 10,
                     onPressed: () {
-                      // Navigator.pushReplacement(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => ,
-                      //   ),
-                      // );
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ResellerHistory(),
+                        ),
+                      );
                     },
                     child: const Text(
                       'Resellers Details',
@@ -114,13 +115,13 @@ class _AgriOfficerHomeScreenState extends State<AgriOfficerHomeScreen> {
                     height: 65,
                     borderRadius: 10,
                     onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              const forecasted_prices_n_production(),
-                        ),
-                      );
+                      // Navigator.pushReplacement(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) =>
+                      //         const forecasted_prices_n_production(),
+                      //   ),
+                      // );
                     },
                     child: const Text(
                       'Forcasted price productoin',

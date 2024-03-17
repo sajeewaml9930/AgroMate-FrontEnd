@@ -1,45 +1,44 @@
 import 'package:agromate/configs/custom_colors.dart';
 import 'package:agromate/configs/url_location.dart';
-import 'package:agromate/models/farmer_model.dart';
+import 'package:agromate/models/reseller_model.dart';
 import 'package:agromate/views/agriofficer/agri_officer_menu.dart';
-import 'package:agromate/views/agriofficer/agriofficer_2_farmer.dart';
+import 'package:agromate/views/agriofficer/agriofficer_2_reseller.dart';
 import 'package:agromate/views/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class FarmerHistory extends StatefulWidget {
-  const FarmerHistory({
-    super.key,
-  });
+class ResellerHistory extends StatefulWidget {
+  const ResellerHistory({super.key});
 
   @override
-  _FarmerHistoryState createState() => _FarmerHistoryState();
+  _ResellerHistoryState createState() => _ResellerHistoryState();
 }
 
-class _FarmerHistoryState extends State<FarmerHistory> {
-  List<Production> production = [];
+class _ResellerHistoryState extends State<ResellerHistory> {
+  List<ResellerDetails> production = [];
   String status = "";
-  String farmerName = "";
+  String ResellerName = "";
   bool isDateSend = true;
   bool isenterresellerid = false;
-  final farmerId = TextEditingController();
+  final ResellerId = TextEditingController();
 
-  Future<void> _fetchProduction(int farmerID) async {
+  Future<void> _fetchProduction(int resellerID) async {
     try {
-      final response =
-          await http.get(Uri.parse('${UrlLocation.Url}/production/$farmerID'));
+      final response = await http.get(
+          Uri.parse('${UrlLocation.Url}/reseller/reselldetail/$resellerID'));
       if (response.statusCode == 201) {
         final jsonResponse = json.decode(response.body);
         final List<dynamic> data = jsonResponse['result'];
         final String name = jsonResponse['name'];
         setState(() {
-          farmerName = name;
+          ResellerName = name;
           production = data
-              .map((item) => Production(
+              .map((item) => ResellerDetails(
                     id: item['id'],
                     date: DateTime.parse(item['date']),
                     quantity: item['quantity'],
+                    price: double.parse(item['price']), // Parse 'price' to int
                   ))
               .toList();
         });
@@ -51,27 +50,25 @@ class _FarmerHistoryState extends State<FarmerHistory> {
     }
   }
 
-  Future<void> _fetchStatus(int farmerId) async {
-    final response =
-        await http.get(Uri.parse('${UrlLocation.Url}/farmer/$farmerId'));
-    if (response.statusCode == 200) {
-      final jsonResponse = json.decode(response.body);
-      String name = jsonResponse['name'];
-      String status = jsonResponse['status'];
-      setState(() {
-        this.status = status;
-        farmerName = name;
-      });
-    } else {
-      throw Exception('Failed to fetch data');
-    }
-  }
+  // Future<void> _fetchStatus(int ResellerId) async {
+  //   final response =
+  //       await http.get(Uri.parse('${UrlLocation.Url}/Reseller/$ResellerId'));
+  //   if (response.statusCode == 200) {
+  //     final jsonResponse = json.decode(response.body);
+  //     String name = jsonResponse['name'];
+  //     setState(() {
+  //       ResellerName = name;
+  //     });
+  //   } else {
+  //     throw Exception('Failed to fetch data');
+  //   }
+  // }
 
   @override
   void initState() {
     super.initState();
-    // _fetchProduction(farmerId);
-    // _fetchStatus(widget.farmerId); // Fetch status and name
+    // _fetchProduction(widget.ResellerId);
+    // _fetchStatus(widget.ResellerId);
   }
 
   @override
@@ -79,7 +76,7 @@ class _FarmerHistoryState extends State<FarmerHistory> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Farmer's History",
+          "Reseller's History",
           style: TextStyle(
             color: Colors.white,
           ),
@@ -121,7 +118,7 @@ class _FarmerHistoryState extends State<FarmerHistory> {
                   child: AbsorbPointer(
                     absorbing: !isDateSend,
                     child: TextField(
-                      controller: farmerId,
+                      controller: ResellerId,
                       onChanged: (value) {
                         // Check if the text field is filled
                         setState(() {
@@ -145,13 +142,19 @@ class _FarmerHistoryState extends State<FarmerHistory> {
               Container(height: 30.0),
               Padding(
                 padding: const EdgeInsets.all(8.0),
+                // child: ElevatedButton(
+                //   onPressed: () {
+        
+                //   },
+                //   child: const Text('Enter'),
+                // ),
                 child: ButtonWidget(
                   width: 300,
                   height: 65,
                   borderRadius: 10,
                   onPressed: () {
                     if (isenterresellerid) {
-                      _fetchProduction(int.parse(farmerId.text));
+                      _fetchProduction(int.parse(ResellerId.text));
                     } else {
                       _showErrorDialog(context, "Please enter the id");
                     }
@@ -177,7 +180,7 @@ class _FarmerHistoryState extends State<FarmerHistory> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => AgriOfficer_2_Farmer(farmerId: int.parse(farmerId.text)),
+                          builder: (context) => AgriOfficer_2_Reseller(ResellerId: int.parse(ResellerId.text)),
                         ),
                       );
                     } else {
@@ -194,11 +197,10 @@ class _FarmerHistoryState extends State<FarmerHistory> {
                   ),
                 ),
               ),
-              Container(height: 30.0),
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: Text(
-                  "$farmerName Production History",
+                  "$ResellerName Resell History",
                   style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -207,13 +209,13 @@ class _FarmerHistoryState extends State<FarmerHistory> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              Text(
-                "Status: $status", // Display status
-                style: const TextStyle(
-                  fontSize: 18,
-                  color: Colors.black,
-                ),
-              ),
+              // Text(
+              //   "Status: $status", // Display status
+              //   style: const TextStyle(
+              //     fontSize: 18,
+              //     color: Colors.black,
+              //   ),
+              // ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: DataTable(
@@ -221,6 +223,7 @@ class _FarmerHistoryState extends State<FarmerHistory> {
                     DataColumn(label: Text('ID')),
                     DataColumn(label: Text('Date')),
                     DataColumn(label: Text('Quantity')),
+                    DataColumn(label: Text('Price')),
                   ],
                   rows: production
                       .map((production) => DataRow(cells: [
@@ -228,6 +231,7 @@ class _FarmerHistoryState extends State<FarmerHistory> {
                             DataCell(Text(
                                 production.date.toString().substring(0, 10))),
                             DataCell(Text(production.quantity.toString())),
+                            DataCell(Text(production.price.toString())),
                           ]))
                       .toList(),
                 ),
@@ -238,6 +242,7 @@ class _FarmerHistoryState extends State<FarmerHistory> {
       ),
     );
   }
+
   void _showErrorDialog(BuildContext context, message) {
     showDialog(
       context: context,

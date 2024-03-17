@@ -133,8 +133,7 @@ class _FarmerHomeScreenState extends State<FarmerHomeScreen> {
     );
   }
 
-  FloatingActionButton _floatingActionButton(
-      {required Icon icon, required VoidCallback? onPressed}) {
+  FloatingActionButton _floatingActionButton({required Icon icon, required VoidCallback? onPressed}) {
     return FloatingActionButton(
       isExtended: true,
       backgroundColor: CustomColors.brownColor,
