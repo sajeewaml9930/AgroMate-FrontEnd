@@ -26,7 +26,7 @@ class _AgriOfficer_2_FarmerState extends State<AgriOfficer_2_Farmer> {
   bool isDateSend = false;
   bool isenterquantity = false;
 
-  // Future<void> _postData(int id) async {
+  // Future<void> _agriofficer_2_farmer_send_massage(int id) async {
   //   final url = Uri.parse('${UrlLocation.Url}o2f_production/add');
   //   final headers = {'Content-Type': 'application/json'};
   //   final body = json.encode({
@@ -79,7 +79,7 @@ class _AgriOfficer_2_FarmerState extends State<AgriOfficer_2_Farmer> {
   //     );
   //   }
   // }
-  Future<void> _postData(int id) async {
+  Future<void> _agriofficer_2_farmer_send_massage(int id) async {
   final url = Uri.parse('${UrlLocation.Url}/o2f_production/add');
   final headers = {'Content-Type': 'application/json'};
   final body = json.encode({
@@ -296,7 +296,7 @@ class _AgriOfficer_2_FarmerState extends State<AgriOfficer_2_Farmer> {
                   onPressed: () {
                     if (isDateSend) {
                       if (isenterquantity) {
-                        _postData(widget.farmerId);
+                        _agriofficer_2_farmer_send_massage(widget.farmerId);
                         print(dateinput.text);
                       } else {
                         _showErrorDialog(context,

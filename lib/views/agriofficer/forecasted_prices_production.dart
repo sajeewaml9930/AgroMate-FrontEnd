@@ -3,6 +3,7 @@ import 'package:agromate/configs/url_location.dart';
 import 'package:agromate/models/common.dart';
 import 'package:agromate/views/agriofficer/agri_officer_home.dart';
 import 'package:agromate/views/agriofficer/agri_officer_menu.dart';
+import 'package:agromate/views/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -149,17 +150,125 @@ class _forecasted_prices_n_productionState
           width: double.infinity,
           height: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 25),
-          child: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(height: 30.0),
-                  const SizedBox(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(height: 30.0),
+                const SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    'Forecasted Value',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Container(height: 20.0),
+                Container(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: DropdownButton(
+                          value: _selectedYear,
+                          items: _buildYearItems(),
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedYear = value!;
+                            });
+                          },
+                          isExpanded: true,
+                          hint: const Text('Year'),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: DropdownButton(
+                          value: _selectedMonth,
+                          items: _buildMonthItems(),
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedMonth = value!;
+                            });
+                          },
+                          isExpanded: true,
+                          hint: const Text('Month'),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: DropdownButton(
+                          value: _selectedWeek,
+                          items: _buildWeekItems(),
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedWeek = value!;
+                            });
+                          },
+                          isExpanded: true,
+                          hint: const Text('Week'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(height: 60.0),
+                ButtonWidget(
+                  width: 300,
+                  height: 65,
+                  borderRadius: 10,
+                  onPressed: () {
+                    Date date = Date(
+                        Year: _selectedYear.toString(),
+                        Month: _selectedMonth.toString(),
+                        Week: _selectedWeek.toString());
+                    //print(date.Month + date.Week);
+                    postDate(date);
+                  },
+                  child: const Text(
+                    'Forecast',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Container(height: 60.0),
+                const SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    'Production For the Farmer',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white70, // add this line
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 2.0,
+                      ),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                     width: double.infinity,
+                    padding: const EdgeInsets.all(20.0),
                     child: Text(
-                      'Forecasted Value',
-                      style: TextStyle(
+                      "$forecasatedProduction Tones",
+                      // '$productionValue Tonne',
+                      style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
@@ -167,76 +276,38 @@ class _forecasted_prices_n_productionState
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  Container(height: 20.0),
-                  Container(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: DropdownButton(
-                            value: _selectedYear,
-                            items: _buildYearItems(),
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedYear = value!;
-                              });
-                            },
-                            isExpanded: true,
-                            hint: const Text('Year'),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: DropdownButton(
-                            value: _selectedMonth,
-                            items: _buildMonthItems(),
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedMonth = value!;
-                              });
-                            },
-                            isExpanded: true,
-                            hint: const Text('Month'),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: DropdownButton(
-                            value: _selectedWeek,
-                            items: _buildWeekItems(),
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedWeek = value!;
-                              });
-                            },
-                            isExpanded: true,
-                            hint: const Text('Week'),
-                          ),
-                        ),
-                      ],
+                ),
+                Container(height: 30.0),
+                const SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    'Price for the Reseller',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
+                    textAlign: TextAlign.center,
                   ),
-                  Container(height: 60.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      Date date = Date(
-                          Year: _selectedYear.toString(),
-                          Month: _selectedMonth.toString(),
-                          Week: _selectedWeek.toString());
-                      //print(date.Month + date.Week);
-                      postDate(date);
-                    },
-                    child: const Text(
-                      'Forecast',
-                      style: TextStyle(fontSize: 15),
+                ),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white70, // add this line
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 2.0,
+                      ),
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
-                  ),
-                  Container(height: 60.0),
-                  const SizedBox(
                     width: double.infinity,
+                    padding: const EdgeInsets.all(20.0),
                     child: Text(
-                      'Production',
-                      style: TextStyle(
+                      "Rs. $forecastedPrice",
+                      //'Rs. $priceValue',
+                      style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
@@ -244,38 +315,38 @@ class _forecasted_prices_n_productionState
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white70, // add this line
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 2.0,
-                        ),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(20.0),
-                      child: Text(
-                        "$forecasatedProduction Tones",
-                        // '$productionValue Tonne',
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
+                ),
+                Container(height: 30.0),
+                const SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    'Sell Weight for the Reseller',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
+                    textAlign: TextAlign.center,
                   ),
-                  Container(height: 30.0),
-                  const SizedBox(
+                ),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white70, // add this line
+                      border: Border.all(
+                        color: Colors.black,
+                        width: 2.0,
+                      ),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                     width: double.infinity,
+                    padding: const EdgeInsets.all(20.0),
                     child: Text(
-                      'Price',
-                      style: TextStyle(
+                      "$forecastedPrice kg",
+                      //'Rs. $priceValue',
+                      style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
@@ -283,34 +354,8 @@ class _forecasted_prices_n_productionState
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white70, // add this line
-                        border: Border.all(
-                          color: Colors.black,
-                          width: 2.0,
-                        ),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(20.0),
-                      child: Text(
-                        "Rs. $forecastedPrice",
-                        //'Rs. $priceValue',
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ));

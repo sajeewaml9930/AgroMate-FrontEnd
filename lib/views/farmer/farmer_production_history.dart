@@ -106,50 +106,48 @@ class _FarmerHistoryState extends State<FarmerHistory> {
         width: double.infinity,
         height: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 25),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(height: 30.0),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Text(
-                    "Hi, $farmerName",
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Text(
-                  "Status: $status", // Display status
-                  style: TextStyle(
-                    fontSize: 18,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(height: 30.0),
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Text(
+                  "Hi, $farmerName",
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
+                  textAlign: TextAlign.center,
                 ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: DataTable(
-                    columns: const [
-                      DataColumn(label: Text('ID')),
-                      DataColumn(label: Text('Date')),
-                      DataColumn(label: Text('Quantity')),
-                    ],
-                    rows: production
-                        .map((production) => DataRow(cells: [
-                              DataCell(Text(production.id.toString())),
-                              DataCell(Text(
-                                  production.date.toString().substring(0, 10))),
-                              DataCell(Text(production.quantity.toString())),
-                            ]))
-                        .toList(),
-                  ),
+              ),
+              Text(
+                "Status: $status", // Display status
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black,
                 ),
-              ],
-            ),
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: DataTable(
+                  columns: const [
+                    DataColumn(label: Text('ID')),
+                    DataColumn(label: Text('Date')),
+                    DataColumn(label: Text('Quantity')),
+                  ],
+                  rows: production
+                      .map((production) => DataRow(cells: [
+                            DataCell(Text(production.id.toString())),
+                            DataCell(Text(
+                                production.date.toString().substring(0, 10))),
+                            DataCell(Text(production.quantity.toString())),
+                          ]))
+                      .toList(),
+                ),
+              ),
+            ],
           ),
         ),
       ),

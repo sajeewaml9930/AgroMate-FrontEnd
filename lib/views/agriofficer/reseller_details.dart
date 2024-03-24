@@ -23,7 +23,7 @@ class _ResellerHistoryState extends State<ResellerHistory> {
   bool isenterresellerid = false;
   final ResellerId = TextEditingController();
 
-  Future<void> _fetchProduction(int resellerID) async {
+  Future<void> _getresellerdetails(int resellerID) async {
     try {
       final response = await http.get(
           Uri.parse('${UrlLocation.Url}/reseller/reselldetail/$resellerID'));
@@ -67,7 +67,7 @@ class _ResellerHistoryState extends State<ResellerHistory> {
   @override
   void initState() {
     super.initState();
-    // _fetchProduction(widget.ResellerId);
+    // _getresellerdetails(widget.ResellerId);
     // _fetchStatus(widget.ResellerId);
   }
 
@@ -154,7 +154,7 @@ class _ResellerHistoryState extends State<ResellerHistory> {
                   borderRadius: 10,
                   onPressed: () {
                     if (isenterresellerid) {
-                      _fetchProduction(int.parse(ResellerId.text));
+                      _getresellerdetails(int.parse(ResellerId.text));
                     } else {
                       _showErrorDialog(context, "Please enter the id");
                     }

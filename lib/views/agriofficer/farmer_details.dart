@@ -8,16 +8,16 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class FarmerHistory extends StatefulWidget {
-  const FarmerHistory({
+class FarmerDetails extends StatefulWidget {
+  const FarmerDetails({
     super.key,
   });
 
   @override
-  _FarmerHistoryState createState() => _FarmerHistoryState();
+  _FarmerDetailsState createState() => _FarmerDetailsState();
 }
 
-class _FarmerHistoryState extends State<FarmerHistory> {
+class _FarmerDetailsState extends State<FarmerDetails> {
   List<Production> production = [];
   String status = "";
   String farmerName = "";
@@ -25,7 +25,7 @@ class _FarmerHistoryState extends State<FarmerHistory> {
   bool isenterresellerid = false;
   final farmerId = TextEditingController();
 
-  Future<void> _fetchProduction(int farmerID) async {
+  Future<void> _getfarmerdetails(int farmerID) async {
     try {
       final response =
           await http.get(Uri.parse('${UrlLocation.Url}/production/$farmerID'));
@@ -51,27 +51,25 @@ class _FarmerHistoryState extends State<FarmerHistory> {
     }
   }
 
-  Future<void> _fetchStatus(int farmerId) async {
-    final response =
-        await http.get(Uri.parse('${UrlLocation.Url}/farmer/$farmerId'));
-    if (response.statusCode == 200) {
-      final jsonResponse = json.decode(response.body);
-      String name = jsonResponse['name'];
-      String status = jsonResponse['status'];
-      setState(() {
-        this.status = status;
-        farmerName = name;
-      });
-    } else {
-      throw Exception('Failed to fetch data');
-    }
-  }
+  // Future<void> _fetchStatus(int farmerId) async {
+  //   final response =
+  //       await http.get(Uri.parse('${UrlLocation.Url}/farmer/$farmerId'));
+  //   if (response.statusCode == 200) {
+  //     final jsonResponse = json.decode(response.body);
+  //     String name = jsonResponse['name'];
+  //     String status = jsonResponse['status'];
+  //     setState(() {
+  //       this.status = status;
+  //       farmerName = name;
+  //     });
+  //   } else {
+  //     throw Exception('Failed to fetch data');
+  //   }
+  // }
 
   @override
   void initState() {
     super.initState();
-    // _fetchProduction(farmerId);
-    // _fetchStatus(widget.farmerId); // Fetch status and name
   }
 
   @override
@@ -96,14 +94,6 @@ class _FarmerHistoryState extends State<FarmerHistory> {
         ),
         centerTitle: true,
         backgroundColor: CustomColors.greenColor,
-        // actions: [
-        //   IconButton(
-        //     icon: const Icon(Icons.arrow_back),
-        //     onPressed: () {
-        //       Navigator.pop(context);
-        //     },
-        //   ),
-        // ],
       ),
       drawer: const AgriOfficerMenu(),
       body: Container(
@@ -123,7 +113,6 @@ class _FarmerHistoryState extends State<FarmerHistory> {
                     child: TextField(
                       controller: farmerId,
                       onChanged: (value) {
-                        // Check if the text field is filled
                         setState(() {
                           isenterresellerid = value.isNotEmpty;
                         });
@@ -151,7 +140,7 @@ class _FarmerHistoryState extends State<FarmerHistory> {
                   borderRadius: 10,
                   onPressed: () {
                     if (isenterresellerid) {
-                      _fetchProduction(int.parse(farmerId.text));
+                      _getfarmerdetails(int.parse(farmerId.text));
                     } else {
                       _showErrorDialog(context, "Please enter the id");
                     }
@@ -177,7 +166,8 @@ class _FarmerHistoryState extends State<FarmerHistory> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => AgriOfficer_2_Farmer(farmerId: int.parse(farmerId.text)),
+                          builder: (context) => AgriOfficer_2_Farmer(
+                              farmerId: int.parse(farmerId.text)),
                         ),
                       );
                     } else {
@@ -238,6 +228,7 @@ class _FarmerHistoryState extends State<FarmerHistory> {
       ),
     );
   }
+
   void _showErrorDialog(BuildContext context, message) {
     showDialog(
       context: context,

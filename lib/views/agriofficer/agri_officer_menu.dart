@@ -60,7 +60,8 @@ class AgriOfficerMenu extends StatelessWidget {
               Navigator.pop(context);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const AgriOfficerHomeScreen()),
+                MaterialPageRoute(
+                    builder: (context) => const AgriOfficerHomeScreen()),
               );
             },
           ),
@@ -71,7 +72,7 @@ class AgriOfficerMenu extends StatelessWidget {
               Navigator.pop(context);
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const FarmerHistory()),
+                MaterialPageRoute(builder: (context) => const FarmerDetails()),
               );
             },
           ),

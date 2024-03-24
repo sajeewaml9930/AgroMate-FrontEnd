@@ -128,144 +128,142 @@ class _AddProductionState extends State<AddProduction> {
         width: double.infinity,
         height: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 25),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(height: 30.0),
-                const SizedBox(
-                  width: double.infinity,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(height: 30.0),
+              const SizedBox(
+                width: double.infinity,
+                child: Text(
+                  'Enter Your Production',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Container(height: 20.0),
+              const SizedBox(height: 20),
+              const Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(left: 20),
                   child: Text(
-                    'Enter Your Production',
+                    'Harvested Date',
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
-                    textAlign: TextAlign.center,
                   ),
                 ),
-                Container(height: 20.0),
-                const SizedBox(height: 20),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 20),
-                    child: Text(
-                      'Harvested Date',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: TextField(
+                  controller: dateinput,
+                  decoration: const InputDecoration(
+                    icon: Icon(Icons.calendar_today),
+                    labelText: "Enter Date",
                   ),
+                  readOnly: true,
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate:
+                          DateTime(2000), // Restrict to today or before
+                      lastDate: DateTime.now(),
+                    );
+        
+                    if (pickedDate != null) {
+                      String formattedDate =
+                          DateFormat('yyyy-MM-dd').format(pickedDate);
+                      isDateSend = true;
+                      setState(() {
+                        dateinput.text = formattedDate;
+                      });
+                      formattedDate = selectedDate;
+                      if (isDateSend) {
+                        // Do something if date is sent
+                      }
+                    } else {}
+                  },
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: TextField(
-                    controller: dateinput,
-                    decoration: const InputDecoration(
-                      icon: Icon(Icons.calendar_today),
-                      labelText: "Enter Date",
-                    ),
-                    readOnly: true,
-                    onTap: () async {
-                      DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate:
-                            DateTime(2000), // Restrict to today or before
-                        lastDate: DateTime.now(),
-                      );
-
-                      if (pickedDate != null) {
-                        String formattedDate =
-                            DateFormat('yyyy-MM-dd').format(pickedDate);
-                        isDateSend = true;
+              ),
+              Container(height: 60.0),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: isDateSend
+                      ? () {}
+                      : () =>
+                          _showErrorDialog(context, "Please enter the date."),
+                  child: AbsorbPointer(
+                    absorbing: !isDateSend,
+                    child: TextField(
+                      controller: quantity,
+                      onChanged: (value) {
+                        // Check if the text field is filled
                         setState(() {
-                          dateinput.text = formattedDate;
+                          isenterquantity = value.isNotEmpty;
                         });
-                        formattedDate = selectedDate;
-                        if (isDateSend) {
-                          // Do something if date is sent
-                        }
-                      } else {}
-                    },
-                  ),
-                ),
-                Container(height: 60.0),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: GestureDetector(
-                    onTap: isDateSend
-                        ? () {}
-                        : () =>
-                            _showErrorDialog(context, "Please enter the date."),
-                    child: AbsorbPointer(
-                      absorbing: !isDateSend,
-                      child: TextField(
-                        controller: quantity,
-                        onChanged: (value) {
-                          // Check if the text field is filled
-                          setState(() {
-                            isenterquantity = value.isNotEmpty;
-                          });
-                        },
-                        decoration: const InputDecoration(
-                          labelText: 'Harvest Quantity in Kilo',
-                          border: OutlineInputBorder(),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                          ),
-                          labelStyle: TextStyle(
-                            color: Colors.black,
-                          ),
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Harvest Quantity in Kilo',
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black),
+                        ),
+                        labelStyle: TextStyle(
+                          color: Colors.black,
                         ),
                       ),
                     ),
                   ),
                 ),
-                Container(height: 50.0),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  // child: ElevatedButton(
-                  //   onPressed: () {
-
-                  //   },
-                  //   child: const Text('Enter'),
-                  // ),
-                  child: ButtonWidget(
-                    width: 300,
-                    height: 65,
-                    borderRadius: 10,
-                    onPressed: () {
-                      if (isDateSend) {
-                        if (isenterquantity) {
-                          _postData(widget.farmerId);
-                          print(dateinput.text);
-                        } else {
-                          _showErrorDialog(context,
-                              "Please enter the harvest Quantity in Kilo");
-                        }
+              ),
+              Container(height: 50.0),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                // child: ElevatedButton(
+                //   onPressed: () {
+        
+                //   },
+                //   child: const Text('Enter'),
+                // ),
+                child: ButtonWidget(
+                  width: 300,
+                  height: 65,
+                  borderRadius: 10,
+                  onPressed: () {
+                    if (isDateSend) {
+                      if (isenterquantity) {
+                        _postData(widget.farmerId);
+                        print(dateinput.text);
                       } else {
-                        _showErrorDialog(context, "Please enter the date.");
+                        _showErrorDialog(context,
+                            "Please enter the harvest Quantity in Kilo");
                       }
-                    },
-                    child: const Text(
-                      'Enter',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    } else {
+                      _showErrorDialog(context, "Please enter the date.");
+                    }
+                  },
+                  child: const Text(
+                    'Enter',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
-              ],
-            ),
+              ),
+              const SizedBox(height: 20),
+            ],
           ),
         ),
       ),

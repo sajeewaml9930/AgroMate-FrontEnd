@@ -30,7 +30,7 @@ class _AgriOfficer_2_ResellerState extends State<AgriOfficer_2_Reseller> {
   bool isenterquantity = false;
   bool isenterprice = false;
 
-  // Future<void> _postData(int id) async {
+  // Future<void> _agriofficer_2_reseller_send_massage(int id) async {
   //   final url = Uri.parse('${UrlLocation.Url}/reseller/$id/resellDetail');
   //   final headers = {'Content-Type': 'application/json'};
   //   final body = json.encode({
@@ -89,13 +89,13 @@ class _AgriOfficer_2_ResellerState extends State<AgriOfficer_2_Reseller> {
   //   }
   // }
 
-Future<void> _postData(int id) async {
+Future<void> _agriofficer_2_reseller_send_massage(int reseller_id) async {
   final url = Uri.parse('${UrlLocation.Url}/o2r_resell_detail/add');
   final headers = {'Content-Type': 'application/json'};
   final body = json.encode({
     'quantity': quantity.text,
     'price': price.text,
-    'reseller_id': id,
+    'reseller_id': reseller_id,
   });
 
   final response = await http.post(url, headers: headers, body: body);
@@ -337,7 +337,7 @@ Future<void> _postData(int id) async {
                     if (isDateSend) {
                       if (isenterquantity) {
                         if (isenterprice) {
-                          _postData(widget.ResellerId);
+                          _agriofficer_2_reseller_send_massage(widget.ResellerId);
                         } else {
                           _showErrorDialog(
                               context, "Please enter the Price.");

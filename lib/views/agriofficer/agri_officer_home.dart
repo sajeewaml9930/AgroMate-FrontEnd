@@ -43,7 +43,37 @@ class _AgriOfficerHomeScreenState extends State<AgriOfficerHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return WillPopScope(
+      onWillPop: () async {
+        final shouldPop = await showDialog<bool>(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Exit'),
+              content: const Text('Are you sure you want to exit the app?'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                  },
+                  child: const Text('Sign Out',
+                    style: TextStyle(color: Colors.red),),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, false);
+                  },
+                  child: const Text(
+                    'No',
+                    style: TextStyle(color: Color.fromARGB(255, 0, 18, 77)),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+        return shouldPop!;
+      },
       child: Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -74,7 +104,7 @@ class _AgriOfficerHomeScreenState extends State<AgriOfficerHomeScreen> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const FarmerHistory(),
+                          builder: (context) => const FarmerDetails(),
                         ),
                       );
                     },
@@ -115,13 +145,13 @@ class _AgriOfficerHomeScreenState extends State<AgriOfficerHomeScreen> {
                     height: 65,
                     borderRadius: 10,
                     onPressed: () {
-                      // Navigator.pushReplacement(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) =>
-                      //         const forecasted_prices_n_production(),
-                      //   ),
-                      // );
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const forecasted_prices_n_production(),
+                        ),
+                      );
                     },
                     child: const Text(
                       'Forcasted price productoin',
@@ -146,7 +176,6 @@ class _AgriOfficerHomeScreenState extends State<AgriOfficerHomeScreen> {
           },
         ),
       ),
-      
     );
   }
 

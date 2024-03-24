@@ -1,9 +1,9 @@
 class MainUrl {
-  static const String Url = 'http://localhost:5000';
+  static const String Url = 'https://agro-dinil.onrender.com';
 }
 
 class UrlLocation {
-  static const String Url = 'http://localhost:5000';
+  static const String Url = 'https://agro-dinil.onrender.com';
   static const String fl = '${MainUrl.Url}/farmer/login';
   static const String fr = '${MainUrl.Url}/farmer/registration';
   static const String al = '${MainUrl.Url}/agriofficer/login';

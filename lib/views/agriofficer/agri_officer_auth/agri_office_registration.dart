@@ -193,7 +193,7 @@ class _OfficerRegistrationState extends State<OfficerRegistration> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Log In',
+                    'Registration',
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
