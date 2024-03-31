@@ -3,13 +3,13 @@ import 'package:agromate/configs/url_location.dart';
 import 'package:agromate/views/agriofficer/agri_officer_auth/agri_office_registration.dart';
 import 'package:agromate/views/agriofficer/agri_officer_home.dart';
 import 'package:agromate/views/home.dart';
+import 'package:agromate/views/widgets/future_progress_dialog.dart';
 import 'package:http/http.dart' as http;
 import 'package:agromate/configs/custom_colors.dart';
 import 'package:agromate/views/widgets/alert_box_widget.dart';
 import 'package:agromate/views/widgets/button_widget.dart';
 import 'package:agromate/views/widgets/label_widget.dart';
 import 'package:agromate/views/widgets/text_field_widget.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 class OfficerLoginScreen extends StatefulWidget {
@@ -149,6 +149,12 @@ class _OfficerLoginScreenState extends State<OfficerLoginScreen> {
     );
   }
 
+  Future<void> _loginButton() async {
+    String name = _usernameController.text;
+    String password = _passwordController.text;
+    login(name, password);
+  }
+
   void _showErrorDialog(String message) {
     showDialog(
       context: context,
@@ -255,9 +261,12 @@ class _OfficerLoginScreenState extends State<OfficerLoginScreen> {
                   height: 45,
                   borderRadius: 10,
                   onPressed: () {
-                    String name = _usernameController.text;
-                    String password = _passwordController.text;
-                    login(name, password);
+                    FocusScope.of(context).unfocus();
+                    showDialog(
+                      context: context,
+                      builder: (context) => FutureProgressDialog(_loginButton(),
+                          message: const Text('Loading...')),
+                    );
                   },
                   child: const Text(
                     'Log In',
